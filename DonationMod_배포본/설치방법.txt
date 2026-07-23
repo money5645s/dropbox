@@ -1,0 +1,30 @@
+DonationMod 설치 방법
+
+1. 팰월드 종료합니다.
+
+2. 이 배포본 안의 ue4ss 폴더를 다음 폴더에 붙여넣기 합니다.
+   PalServer\Pal\Binaries\Win64\ue4ss
+C:\Program Files (x86)\Steam\steamapps\common\PalServer\Pal\Binaries\Win64\ue4ss (C드라이브에 깐경우)
+
+ue4ss  ★★★★★★ <경로에 붙여넣기할 파일
+dwmapi.dll ★★★★ <경로에 붙여넣기할 파일
+
+
+3. 배포본의 MemberVariableLayout.ini는 이 모드가 검증된 UE4SS 환경용 호환 파일입니다.
+   대상 ue4ss 폴더에 같은 파일이 있으면 먼저 백업한 뒤 교체합니다.
+   다른 UE4SS 빌드를 쓰는 서버는 해당 빌드에 맞는 MemberVariableLayout.ini를 사용해야 합니다.
+
+4. Mods\DonationMod\Scripts\modules\config.lua에서 후원 금액과 이벤트를 설정합니다.
+   금액은 정확히 일치해야 실행됩니다.
+
+5. 서버를 시작한 뒤 게임 채팅에서 다음 명령으로 테스트합니다.
+   !cztest 플레이어이름 금액
+   예: !cztest Money 20000
+
+
+주의 사항
+
+- 큐 파일에는 제목 줄이나 설명 줄을 넣지 마세요.
+- 설정되지 않은 금액은 큐에서 자동으로 삭제됩니다.
+- 20,000원 랜덤 텔레포트는 같은 월드에 다른 접속 플레이어가 한 명 이상 있어야 합니다.
+- 배포본에는 실제 후원 큐, 플레이어 상태, 스트리머 등록 데이터가 포함되어 있지 않습니다.

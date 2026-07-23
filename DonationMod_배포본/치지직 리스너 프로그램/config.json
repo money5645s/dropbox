@@ -1,0 +1,6 @@
+{
+  "luaQueuePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\PalServer\\Pal\\Binaries\\Win64\\ue4ss\\Mods\\DonationMod\\Scripts\\donations.queue",
+  "luaPlayerStatusPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\PalServer\\Pal\\Binaries\\Win64\\ue4ss\\Mods\\DonationMod\\Scripts\\players.status",
+  "streamerRegistrationRequestPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\PalServer\\Pal\\Binaries\\Win64\\ue4ss\\Mods\\DonationMod\\Scripts\\streamer-registration.requests",
+  "streamerRegistrationResponsePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\PalServer\\Pal\\Binaries\\Win64\\ue4ss\\Mods\\DonationMod\\Scripts\\streamer-registration.responses"
+}
