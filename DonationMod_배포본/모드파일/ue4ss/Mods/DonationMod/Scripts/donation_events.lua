@@ -47,24 +47,44 @@ function runDonationEvent(playerUid, playerName, amount)
         return false, tier, loadErr
     end
 
+    local repeatCount = tonumber(tier.repeatCount or 1)
+    if repeatCount == nil or repeatCount < 1 or repeatCount ~= math.floor(repeatCount) then
+        return false, tier, "이벤트 반복 횟수 설정이 올바르지 않습니다."
+    end
+    if repeatCount > 20 then
+        return false, tier, "이벤트 반복 횟수는 최대 20회까지 설정할 수 있습니다."
+    end
+
+    local repeatIntervalMs = tonumber(tier.repeatIntervalMs or 250)
+    if repeatIntervalMs == nil or repeatIntervalMs < 0 or repeatIntervalMs ~= math.floor(repeatIntervalMs) then
+        return false, tier, "이벤트 반복 간격 설정이 올바르지 않습니다."
+    end
+    print(playerUid)
     local context = {
         playerUid = playerUid,
         playerName = playerName,
         amount = amount,
         formattedAmount = formatAmount(amount),
         tier = tier,
+        repeatCount = repeatCount,
+        repeatIntervalMs = repeatIntervalMs,
         sendSystemToPlayer = sendSystemToPlayer,
         log = log,
     }
 
-    local ranOk, eventOk, eventMessage = xpcall(function()
-        return eventHandler(context)
-    end, debug.traceback)
-    if not ranOk then
-        return false, tier, "이벤트 실행 중 오류가 발생했습니다: " .. tostring(eventOk)
-    end
-    if eventOk == false then
-        return false, tier, tostring(eventMessage or "이벤트가 실패했습니다.")
+    local eventMessage = nil
+    for repeatIndex = 1, repeatCount do
+        context.repeatIndex = repeatIndex
+        local ranOk, eventOk, currentMessage = xpcall(function()
+            return eventHandler(context)
+        end, debug.traceback)
+        if not ranOk then
+            return false, tier, "이벤트 실행 중 오류가 발생했습니다: " .. tostring(eventOk)
+        end
+        if eventOk == false then
+            return false, tier, tostring(currentMessage or "이벤트가 실패했습니다.")
+        end
+        eventMessage = currentMessage
     end
 
     return true, tier, eventMessage

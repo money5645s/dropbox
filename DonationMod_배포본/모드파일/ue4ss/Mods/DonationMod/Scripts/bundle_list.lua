@@ -1,63 +1,48 @@
 
 BundleCatalog = {
-    Normal = {
-        {
-            maxRoll = 5,
-            grade = "전설 (5%)",
-            items = {
-                { id = "PalSphere_Exotic", count = 3, name = "엑조틱 스피어" },
-                { id = "PalSphere_Ultimate", count = 5, name = "울티메이트 스피어" },
-                { id = "PalSphere_Ancient_2", count = 3, name = "고대 스피어" },
-                { id = "Diamond", count = 3, name = "다이아몬드" },
-                { id = "PalUpgradeStone4", count = 2, name = "거대 팰 영혼" },
-                { id = "PalRevive", count = 2, name = "부활 물약" },
-                { id = "Elixir_hp_Yakushima", count = 1, name = "생명 크리스탈" },
-                { id = "AncientParts3", count = 2, name = "고대 팰 원고" }
-            }
+    admin = {
+    {
+        maxRoll = 100,
+        grade = "admin",
+        items = {
+            { id = "HatchingPalEgg", minCount = 1, maxCount = 1, name = "알부화기" }
         },
-        {
-            maxRoll = 30,
-            grade = "레어 (25%)",
-            items = {
-                { id = "PalSphere_Legend", count = 5, name = "레전더리 스피어" },
-                { id = "PalSphere_Master", count = 10, name = "울트라 스피어" },
-                { id = "PalSphere_Tera", count = 15, name = "하이퍼 스피어" },
-                { id = "PalUpgradeStone3", count = 3, name = "대형 팰 영혼" },
-                { id = "AncientParts2", count = 3, name = "고대 문명 코어" },
-                { id = "PalOil", count = 15, name = "고급 팰 기름" },
-                { id = "CrudeOil", count = 20, name = "원유" },
-                { id = "ManganeseOre", count = 20, name = "코랄리움 광석" },
-                { id = "Thermal_Core", count = 3, name = "열 코어" }
-            }
+    },
+},
+    Help = {
+    {
+        maxRoll = 100,
+        grade = "도움 보따리",
+        items = {
+            { id = "Money", minCount = 75000, maxCount = 75000, name = "금화" },
+            { id = "TechnologyBook_G2", minCount = 1, maxCount = 2, name = "혁신적인 기술서" },
+            { id = "TechnologyBook_G3", minCount = 1, maxCount = 1, name = "미래의 기술서" },
+            { id = "AncientTechnologyBook_G1", minCount = 1, maxCount = 1, name = "고대의 기술서" },
+            { id = "Fruit_hp_01", minCount = 1, maxCount = 1, name = "생명의 열매" },
+            { id = "Fruit_attack_01", minCount = 1, maxCount = 1, name = "괴력의 열매" },
+            { id = "Fruit__defense_01", minCount = 1, maxCount = 1, name = "견고의 열매" },
+            { id = "PalCrystal_Ex", minCount = 2, maxCount = 4, name = "고대 문명의 부품" },
+            { id = "Elixir_hp_01", minCount = 2, maxCount = 2, name = "명맥의 비약" },
+            { id = "Elixir_stamina_01", minCount = 2, maxCount = 2, name = "활력의 비약" },
+            { id = "Elixir_weight_02", minCount = 2, maxCount = 2, name = "거인의 신약" },
+            { id = "Elixir_workspeed_01", minCount = 2, maxCount = 2, name = "근로의 비약" },
+            { id = "Elixir_attack_01", minCount = 2, maxCount = 2, name = "맹격의 비약" },
         },
+    },
+},
+
+    Sphere = {
         {
             maxRoll = 100,
-            grade = "일반 (70%)",
+            grade = "스피어 보따리",
             items = {
-                { id = "Money", count = 1000, name = "골드 코인" },
-                { id = "PalSphere", count = 20, name = "팰 스피어" },
-                { id = "PalSphere_Mega", count = 15, name = "메가 스피어" },
-                { id = "PalSphere_Giga", count = 10, name = "기가 스피어" },
-                { id = "Baked_Berries", count = 30, name = "구운 열매" },
-                { id = "Pan", count = 20, name = "빵" },
-                { id = "PalFluid", count = 15, name = "팰의 체액" },
-                { id = "Leather", count = 30, name = "가죽" },
-                { id = "Bone", count = 30, name = "뼈" },
-                { id = "CopperOre", count = 50, name = "광석" },
-                { id = "Stone", count = 100, name = "돌" },
-                { id = "Wood", count = 100, name = "나무" },
-                { id = "Coal", count = 50, name = "석탄" },
-                { id = "Quartz", count = 50, name = "순수 석영" },
-                { id = "FireOrgan", count = 20, name = "발화 기관" },
-                { id = "ElectricOrgan", count = 20, name = "전기 기관" },
-                { id = "IceOrgan", count = 20, name = "빙결 기관" },
-                { id = "Venom", count = 20, name = "독샘" }
-            }
-        }
+                { id = "PalSphere_Master", minCount = 6, maxCount = 10, name = "울트라 스피어" },
+                { id = "PalSphere_Legend", minCount = 3, maxCount = 6, name = "전설 스피어" },
+                { id = "PalSphere_Ultimate", minCount = 1, maxCount = 2, name = "인피니티 스피어" },
+            },
+        },
     },
 
-    -- 2,000원 후원용 기본 번들입니다.
-    -- maxRoll은 1~100 주사위의 누적 상한값입니다.
     Default = {
         {
             maxRoll = 3,
@@ -67,7 +52,7 @@ BundleCatalog = {
                 { id = "PalRevive", count = 1, name = "부활약" },
                 { id = "Homeward", count = 1, name = "귀환의 뇌운" },
                 { id = "Supplement", count = 1, name = "영양제" },
-                { id = "MachineParts2", count = 1, name = "전자 기판" },
+                { id = "MachineParts2", count = 1, name = "전자 기판" },    
                 { id = "StatusPointResetSan", count = 1, name = "기억 삭제 약" },
             }
         },
@@ -127,8 +112,11 @@ BundleCatalog = {
                 { id = "Gunpowder2", count = 1, name = "화약" },
             }
         },
-    },
+    }
 }
+
+
+
 
 function selectDonationConsumable(bundleName)
     local bundle = BundleCatalog[bundleName]
@@ -148,82 +136,19 @@ function selectDonationConsumable(bundleName)
     return nil, nil, "후원 아이템 룰렛 목록을 선택하지 못했습니다."
 end
 
--- 5,000원 팰 알 룰렛입니다.
--- 캐릭터 ID는 팰월드의 내부 ID이며, 실제 지급할 알 아이템 ID는 이벤트에서 생성합니다.
-PalEggCatalog = {
-    PalEgg = {
-        {
-            maxRoll = 3,
-            grade = "S급 · 에픽 (3%)",
-            characterIds = {
-                "JetDragon", "WhiteShieldDragon", "BlackCentaur", "IceHorse", "IceHorse_Dark",
-                "LilyQueen", "LilyQueen_Dark", "Umihebi_Fire", "Suzaku", "Suzaku_Water",
-                "Horus", "BlackMetalDragon", "ThunderDragonMan", "HadesBird",
-            },
-        },
-        {
-            maxRoll = 10,
-            grade = "A급 · 희귀 (7%)",
-            characterIds = {
-                "Anubis", "Umihebi", "KingBahamut", "KingBahamut_Dragon", "GrassMammoth",
-                "GrassMammoth_Ice", "VolcanicMonster", "VolcanicMonster_Ice", "DarkScorpion",
-                "DarkScorpion_Ground", "WhiteTiger", "WhiteTiger_Ground", "AmaterasuWolf",
-                "AmaterasuWolf_Dark", "FengyunDeeper", "FengyunDeeper_Electric", "DarkCrow",
-                "RedArmorBird", "BirdDragon", "BirdDragon_Ice", "WeaselDragon", "WeaselDragon_Fire",
-                "Manticore", "Manticore_Dark", "Baphomet_Dark", "RobinHood_Ground", "IceDeer",
-                "FireKirin", "FireKirin_Dark", "KingAlpaca", "KingAlpaca_Ice", "HerculesBeetle",
-            },
-        },
-        {
-            maxRoll = 30,
-            grade = "B급 · 고급 (20%)",
-            characterIds = {
-                "ElecPanda", "Ganesha", "Garm", "Gorilla", "Kirin", "FairyDragon",
-                "FairyDragon_Water", "SweetsSheep", "Serpent", "Serpent_Ground", "FlowerDinosaur",
-                "FlowerDinosaur_Electric", "LizardMan", "LizardMan_Fire", "SakuraSaurus",
-                "SakuraSaurus_Water", "GrassPanda", "GrassPanda_Electric", "GrassRabbitMan",
-                "IceFox", "FoxMage", "FoxMage_Dark", "CatMage", "CatMage_Fire", "Yeti",
-                "Yeti_Grass", "Kelpie", "Kelpie_Fire", "SharkKid", "SharkKid_Fire",
-                "RaijinDaughter", "RaijinDaughter_Water", "ThunderDog", "ThunderDog_Ice",
-                "HawkBird", "FlyingManta", "FlyingManta_Thunder", "QueenBee", "SoldierBee",
-                "CatBat", "FlameBuffalo", "ElecLion",
-            },
-        },
-        {
-            maxRoll = 100,
-            grade = "C-D급 · 일반 (70%)",
-            characterIds = {
-                "SheepBall", "PinkCat", "ChickenPal", "LittleBriarRose", "Kitsunebi",
-                "Blueplatypus", "ElecCat", "Monkey", "FlameBambi", "Penguin", "CaptainPenguin",
-                "Hedgehog", "Hedgehog_Ice", "PlantSlime", "NegativeKoala", "Carbunclo",
-                "DreamDemon", "Boar", "Owl", "WindChimes", "CuteFox", "BerryGoat", "SifuDog",
-                "TentacleTurtle", "BrownRabbit", "FeatherOstrich", "WoolFox", "NaughtyCat",
-                "FlowerRabbit", "PinkRabbit", "PinkRabbit_Grass", "MopBaby", "MopKing", "CowPal",
-                "NegativeOctopus", "NegativeOctopus_Neutral", "PinkKangaroo", "BlueDragon",
-                "BlueDragon_Ice", "BeardedDragon", "ElecLizard", "ElecSnail", "ElecSnail_Fire",
-                "ElecSnail_Ground", "SmallArmadillo", "KendoFrog", "KendoFrog_Dark", "CandleGhost",
-                "HoodGhost", "JellyfishFairy", "JellyfishGhost", "LeafMomonga", "SmallYeti",
-                "IceCrocodile", "CactusDoll", "CactusDoll_Dark", "MushroomLady", "MushroomDragon",
-                "MushroomDragon_Dark", "StuffedShark", "StuffedShark_Fire", "IceSeal", "IceSeal_Ground",
-                "CloverFairy", "ElecPomeranian", "GhostBlackCat", "ThiefBird", "KingCrab",
-                "Plesiosaur", "TropicalOstrich", "CubeTurtle", "CubeTurtle_Neutral", "LongCat",
-            },
-        },
-    },
-}
-
-function selectDonationPalEgg(bundleName)
-    local bundle = PalEggCatalog[bundleName]
-    if type(bundle) ~= "table" then
-        return nil, nil, nil, "존재하지 않는 팰 알 룰렛입니다: " .. tostring(bundleName)
+-- count만 있으면 고정 수량, minCount와 maxCount가 있으면 범위 내 무작위 수량입니다.
+function selectDonationItemCount(item)
+    if type(item) ~= "table" then
+        return nil, "보상 아이템 설정이 올바르지 않습니다."
     end
 
-    local roll = math.random(1, 100)
-    for _, tier in ipairs(bundle) do
-        if roll <= tier.maxRoll then
-            return tier.characterIds[math.random(1, #tier.characterIds)], tier.grade, tier, nil
-        end
+    local minimum = tonumber(item.minCount or item.count)
+    local maximum = tonumber(item.maxCount or item.count)
+    if minimum == nil or maximum == nil
+        or minimum < 1 or maximum < minimum
+        or minimum ~= math.floor(minimum) or maximum ~= math.floor(maximum) then
+        return nil, "보상 아이템 수량 설정이 올바르지 않습니다."
     end
 
-    return nil, nil, nil, "팰 알 룰렛 목록을 선택하지 못했습니다."
+    return math.random(minimum, maximum), nil
 end
