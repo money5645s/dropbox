@@ -17,17 +17,10 @@ DonationConfig = {
             bundle = "Default",
         },
         {
-            amount = 5000,
-            label = "5,000원",
-            name = "팰 알 룰렛",
-            event = "give_pal_egg",
-            bundle = "PalEgg",
-        },
-        {
             amount = 10000,
             label = "10,000원",
-            name = "공중 점프",
-            event = "air_jump",
+            name = "랜덤 디버프",
+            event = "random_deburf",
         },
         {
             amount = 20000,
