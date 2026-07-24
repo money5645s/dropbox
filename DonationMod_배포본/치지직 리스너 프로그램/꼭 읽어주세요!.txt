@@ -6,6 +6,8 @@ CHZZK Donation Listener for Windows (unofficial channel-ID mode)
  (※ 이는 개인 설치 경로에 따라 변경될수 있습니다)
 -> 기본경로 : C:\Program Files (x86)\Steam\steamapps\common\PalServer\Pal\Binaries\Win64\ue4ss\Mods\DonationMod\Scripts
 -> 경로 변경 방법 : config.json를 켜면 자동의 네 경로를 실제 PalServer DonationMod Scripts 폴더로 설정합니다.
+                           (※ 콘피그 파일 4개의 경로 폴더 사이마다 \가 두 개씩 있어야합니다!)
+			   ex)  C:\\Program Files (x86)\\Steam\\steamapps\\........
 
 2. CHZZK-Donation-Listener.exe를 실행한 뒤 창을 닫지 않습니다.
 
