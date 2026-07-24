@@ -77,23 +77,23 @@ return function(context)
     local select = math.random(1, 6)
         
     if select == 1 then
-        sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 랜덤디버프 : 얼리기")
+        sendSystemToPlayer(context.GetPlayerUId, "[후원] 5,000원 랜덤디버프 : 얼리기")
         deburfToPlayer(uid, 21)
     elseif select == 2 then
-        sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 랜덤디버프 : 화상")
+        sendSystemToPlayer(context.GetPlayerUId, "[후원] 5,000원 랜덤디버프 : 화상")
         deburfToPlayer(uid, 19)
     elseif select == 3 then
-        sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 랜덤디버프 : 감전")
+        sendSystemToPlayer(context.GetPlayerUId, "[후원] 5,000원 랜덤디버프 : 감전")
         deburfToPlayer(uid, 22)
     elseif select == 4 then
-        sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 랜덤디버프 : 암흑")
+        sendSystemToPlayer(context.GetPlayerUId, "[후원] 5,000원 랜덤디버프 : 암흑")
         deburfToPlayer(uid, 25)
     elseif select == 5 then
-        sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 랜덤디버프 : 공중 점프!")
+        sendSystemToPlayer(context.GetPlayerUId, "[후원] 5,000원 랜덤디버프 : 공중 점프!")
         launchPlayerUpward(uid)
         
     elseif select == 6 then
-        sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 랜덤디버프 : 반피!")
+        sendSystemToPlayer(context.GetPlayerUId, "[후원] 5,000원 랜덤디버프 : 반피!")
         halvePlayerHealth(uid)
 
     return true, "랜덤 디버프 처리를 완료했습니다."
