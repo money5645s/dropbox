@@ -87,7 +87,7 @@ return function(context)
         sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 후원 : 루테인 드세요")
         deburfToPlayer(uid, 25)
     elseif select == 5 then
-        sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 후원 : 하늘 위에서겠어")
+        sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 후원 : 하늘 위에 서겠어")
         launchPlayerUpward(uid)
     end
 

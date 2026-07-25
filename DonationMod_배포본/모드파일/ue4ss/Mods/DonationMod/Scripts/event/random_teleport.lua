@@ -1,5 +1,9 @@
 -- 후원 대상 플레이어를 임의의 다른 접속 플레이어 위치로 순간이동시킵니다.
 
+local randomCoordinateTeleport = assert(loadfile(
+    DonationScriptDirectory .. "\\event\\random_tp.lua"
+))()
+
 local function isValidObject(object)
     return object ~= nil and object:IsValid()
 end
@@ -101,7 +105,22 @@ return function(context)
         return teleportToRandomPlayer(context.playerUid)
     end, debug.traceback)
 
-    if calledOk and teleported == false and noOtherPlayer then
+    if calledOk and teleported == false then
+        local fallbackCalled, fallbackOk, fallbackMessage = xpcall(function()
+            return randomCoordinateTeleport(context)
+        end, debug.traceback)
+
+        if fallbackCalled and fallbackOk then
+            context.log("Random-player teleport fallback used for " .. tostring(context.playerName))
+            return true, fallbackMessage or "Moved to a random coordinate."
+        end
+
+        local fallbackError = fallbackCalled and fallbackMessage or fallbackOk
+        context.log("Random-coordinate fallback failed for " .. tostring(context.playerName)
+            .. " / " .. tostring(fallbackError))
+        do
+            return false, tostring(fallbackError)
+        end
         local message = "다른 접속 플레이어가 없어 랜덤 텔레포트를 건너뛰었습니다."
         context.sendSystemToPlayer(context.playerUid, "[후원] " .. message)
         context.log("랜덤 텔포 이벤트 건너뜀: " .. tostring(context.playerName)
