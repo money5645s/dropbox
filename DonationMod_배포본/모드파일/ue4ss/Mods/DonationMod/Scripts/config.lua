@@ -11,34 +11,36 @@ DonationConfig = {
     -- event에는 Scripts\event 폴더의 Lua 파일명에서 ".lua"를 뺀 값을 넣는다
     donationTiers = {
         {
-            amount = 2000,
-            label = "2,000원",
-            event = "give_bundle",
-            bundle = "Default",
+            amount = 3000,
+            label = "3,000원",
+            name = "펠 스피어",
+            event = "give_item",
+            bundle = "Sphere",
         },
         {
             amount = 5000,
             label = "5,000원",
-            name = "팰 알 룰렛",
-            event = "give_pal_egg",
-            bundle = "PalEgg",
+            name = "펠 스피어",
+            event = "give_item",
+            bundle = "Default",
         },
         {
             amount = 10000,
             label = "10,000원",
-            name = "공중 점프",
-            event = "air_jump",
+            name = "랜덤 방해",
+            event = "random_deburf",
         },
         {
-            amount = 20000,
-            label = "20,000원",
-            name = "랜덤 텔포",
-            event = "random_teleport",
+            amount = 100000,
+            label = "100,000원",
+            name = "펠 삭제",
+            event = "delete_random_party_pal",
         },
         {
-            amount = 50000,
-            label = "50,000원",
+            amount = 300000,
+            label = "300,000원",
+            name = "즉사",
             event = "instant_kill",
-        },
+        }
     },
 }
