@@ -34,57 +34,57 @@ BundleCatalog = {
             maxRoll = 26,
             grade = "재료 가방[목재] (10%)",
             items = {
-                { id = "Wood", minCount = 1, maxCount = 4, name = "목재" },
-                { id = "Wood_Fine", minCount = 1, maxCount = 4, name = "단단한 목재" }
+                { id = "Wood", count = 200, name = "목재" },
+                { id = "Wood_Fine", count = 200, name = "단단한 목재" }
             }
         },
         {
             maxRoll = 36,
             grade = "재료 가방[광물] (10%)",
             items = {
-                { id = "Coal", minCount = 1, maxCount = 4, name = "석탄" },
-                { id = "Sulfur", minCount = 1, maxCount = 4, name = "유황" },
-                { id = "Quartz", minCount = 1, maxCount = 4, name = "순수한 석영" },
-                { id = "CrudeOil", minCount = 1, maxCount = 4, name = "원유" },
+                { id = "Coal", count = 200, name = "석탄" },
+                { id = "Sulfur", count = 200, name = "유황" },
+                { id = "Quartz", count = 200, name = "순수한 석영" },
+                { id = "CrudeOil", count = 200, name = "원유" },
             }
         },
         {
             maxRoll = 46,
             grade = "재료 가방[기타] (10%)",
             items = {
-                { id = "Bone", minCount = 1, maxCount = 4, name = "뼈" },
-                { id = "Horn", minCount = 1, maxCount = 4, name = "뿔" },
-                { id = "Leather", minCount = 1, maxCount = 4, name = "가죽" },
-                { id = "Wool", minCount = 1, maxCount = 4, name = "양털" }
+                { id = "Bone", count = 100, name = "뼈" },
+                { id = "Horn", count = 100, name = "뿔" },
+                { id = "Leather", count = 100, name = "가죽" },
+                { id = "Wool", count = 100, name = "양털" }
             }
         },
         {
             maxRoll = 56,
             grade = "재료 가방[기관] (10%)",
             items = {
-                { id = "Venom", minCount = 1, maxCount = 4, name = "독샘" },
-                { id = "FireOrgan", minCount = 1, maxCount = 4, name = "발화 기관" },
-                { id = "IceOrgan", minCount = 1, maxCount = 4, name = "빙결 기관" },
-                { id = "ElectricOrgan", minCount = 1, maxCount = 4, name = "발전 기관" },
+                { id = "Venom", count = 50, name = "독샘" },
+                { id = "FireOrgan", count = 50, name = "발화 기관" },
+                { id = "IceOrgan", count = 50, name = "빙결 기관" },
+                { id = "ElectricOrgan", count = 50, name = "발전 기관" },
             }
         },
         {
             maxRoll = 72,
             grade = "미끼 가방 (8%)",
             items = {
-                { id = "FishingBait_1", minCount = 2, maxCount = 3, name = "소박한 낚시 미끼" },
-                { id = "FishingBait_2", minCount = 2, maxCount = 3, name = "질 좋은 낚시 미끼" },
-                { id = "FishingBait_3", minCount = 2, maxCount = 3, name = "호화로운 낚시 미끼" }
+                { id = "FishingBait_1", minCount = 10, maxCount = 15, name = "소박한 낚시 미끼" },
+                { id = "FishingBait_2", minCount = 10, maxCount = 15, name = "질 좋은 낚시 미끼" },
+                { id = "FishingBait_3", minCount = 10, maxCount = 15, name = "호화로운 낚시 미끼" }
             }
         },
         {
             maxRoll = 72,
             grade = "의약품 가방 (8%)",
             items = {
-                { id = "Medicines", minCount = 2, maxCount = 4, name = "의약품" },
-                { id = "LuxuryMedicines", minCount = 2, maxCount = 4, name = "고품질 의약품" },
-                { id = "Potion", minCount = 2, maxCount = 4, name = "회복약" },
-                { id = "Potion_High", minCount = 2, maxCount = 4, name = "고품질 회복약" }
+                { id = "Medicines", minCount = 5, maxCount = 10, name = "의약품" },
+                { id = "LuxuryMedicines", minCount = 5, maxCount = 10, name = "고품질 의약품" },
+                { id = "Potion", minCount = 5, maxCount = 10, name = "회복약" },
+                { id = "Potion_High", minCount = 5, maxCount = 10, name = "고품질 회복약" }
             }
         },
         {

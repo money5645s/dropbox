@@ -51,6 +51,15 @@ local function findPlayerInventory(playerName)
     return nil, "대상 플레이어가 접속 중이 아닙니다."
 end
 
+local function deburfToPlayer(playerUid, effectID)
+    local _, playerController = findPlayerStateByUid(playerUid)
+    local pawn = playerController.Pawn
+    local status = pawn.StatusComponent
+    status:AddStatus(effectID)
+    return true
+end
+
+
 ---@param context PalPlayerController
 return function(context)
     local uid = context.playerUid
@@ -58,7 +67,7 @@ return function(context)
     local sendSystemToPlayer = context.sendSystemToPlayer
     
 
-    local select = math.random(1, 3)
+    local select = math.random(1, 6)
         
     if select == 1 then
         sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 랜덤디버프 : 공중 점프!")
@@ -67,6 +76,7 @@ return function(context)
         sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 랜덤디버프 : 체력감소!")
         halvePlayerHealth(uid)
     elseif select == 3 then
+    
         sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 랜덤디버프 : 나는 거북이!")
         
         pcall(function()ExecuteInGameThreadWithDelay(100, function()
@@ -78,6 +88,15 @@ return function(context)
             end
         end)
         end)
+    elseif select == 4 then
+        sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 랜덤디버프 : 감전 상태이상!")
+        deburfToPlayer(uid, 22)
+    elseif select == 5 then
+        sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 랜덤디버프 : 화상 상태이상!")
+        deburfToPlayer(uid, 19)
+    elseif select == 6 then
+        sendSystemToPlayer(context.GetPlayerUId, "[후원] 1만원 랜덤디버프 : 빙결 상태이상!")
+        deburfToPlayer(uid, 21)
 
     return true, "랜덤 디버프 처리를 완료했습니다."
 end
