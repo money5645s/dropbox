@@ -27,59 +27,80 @@ local function findPlayerInventory(playerName)
 end
 
 return function(context)
-    local item, grade, selectErr = selectDonationConsumable(context.tier.bundle)
-    if item == nil then
-        return false, selectErr
+    local repeatCount = math.floor(tonumber(context.tier.repeatCount) or 1)
+    if repeatCount < 1 or repeatCount > 20 then
+        return false, "번들 지급 횟수 설정이 올바르지 않습니다."
     end
 
-    if type(item.id) ~= "string" or item.id == ""
-        or type(item.count) ~= "number" or item.count < 1
-        or item.count ~= math.floor(item.count) then
-        return false, "보상 아이템 설정이 올바르지 않습니다."
+    -- 모든 보상을 먼저 추첨해 설정 오류가 나면 하나도 지급하지 않습니다.
+    local rewards = {}
+    for index = 1, repeatCount do
+        local item, grade, selectErr = selectDonationConsumable(context.tier.bundle)
+        if item == nil then
+            return false, selectErr
+        end
+        if type(item.id) ~= "string" or item.id == ""
+            or type(item.count) ~= "number" or item.count < 1
+            or item.count ~= math.floor(item.count) then
+            return false, "보상 아이템 설정이 올바르지 않습니다."
+        end
+        rewards[index] = {
+            id = item.id,
+            name = tostring(item.name or item.id),
+            count = item.count,
+            grade = tostring(grade or "일반"),
+        }
     end
 
-    -- 지연 콜백에 안전한 Lua 값만 전달합니다.
+    -- 지연 콜백에는 안전한 Lua 값만 전달합니다.
     local playerName = tostring(context.playerName)
-    local itemIdentifier = item.id
-    local itemName = tostring(item.name or item.id)
-    local itemId = itemName
-    local itemCount = item.count
-    local itemGrade = tostring(grade or "일반")
     local writeLog = context.log
     local sendSystemToPlayer = context.sendSystemToPlayer
+    local startMessage = context.tier.startMessage
 
-    local scheduledOk, scheduledErr = pcall(function()
-        ExecuteInGameThreadWithDelay(100, function()
-            local grantedOk, grantedErr = xpcall(function()
-                local playerController, inventoryOrErr = findPlayerInventory(playerName)
-                if playerController == nil then
-                    error(inventoryOrErr)
-                end
-
-                local inventory = inventoryOrErr
-                writeLog("후원 아이템 지급 시작: " .. playerName
-                    .. " / " .. itemId .. " x" .. tostring(itemCount))
-
-                -- 현재 서버의 AddItem_ServerInternal 인자 순서입니다.
-                inventory:AddItem_ServerInternal(FName(itemIdentifier), itemCount, false, 0.0, false)
-
-                sendSystemToPlayer(
-                    playerController:GetPlayerUId(),
-                    string.format("[후원] %s 등급 보상: %s x%d 지급!", itemGrade, itemName, itemCount)
-                )
-                writeLog("후원 번들 지급 완료: " .. playerName
-                    .. " / " .. itemGrade .. " / " .. itemId .. " x" .. tostring(itemCount))
-            end, debug.traceback)
-
-            if not grantedOk then
-                writeLog("후원 아이템 지급 실패: " .. playerName .. " / " .. tostring(grantedErr))
-            end
-        end)
-    end)
-
-    if not scheduledOk then
-        return false, "아이템 지급을 예약하지 못했습니다: " .. tostring(scheduledErr)
+    if type(startMessage) == "string" and startMessage ~= "" then
+        sendSystemToPlayer(context.playerUid, "[후원] " .. startMessage)
     end
 
-    return true, "아이템 지급을 예약했습니다."
+    for index, reward in ipairs(rewards) do
+        local rewardIndex = index
+        local scheduledReward = reward
+        local scheduledOk, scheduledErr = pcall(function()
+            ExecuteInGameThreadWithDelay(250 * rewardIndex, function()
+                local grantedOk, grantedErr = xpcall(function()
+                    local playerController, inventoryOrErr = findPlayerInventory(playerName)
+                    if playerController == nil then
+                        error(inventoryOrErr)
+                    end
+
+                    local inventory = inventoryOrErr
+                    writeLog("후원 아이템 지급 시작: " .. playerName
+                        .. " / " .. scheduledReward.name .. " x" .. tostring(scheduledReward.count)
+                        .. " (" .. tostring(rewardIndex) .. "/" .. tostring(repeatCount) .. ")")
+
+                    -- 현재 서버의 AddItem_ServerInternal 인자 순서입니다.
+                    inventory:AddItem_ServerInternal(FName(scheduledReward.id), scheduledReward.count, false, 0.0, false)
+
+                    sendSystemToPlayer(
+                        playerController:GetPlayerUId(),
+                        string.format("[후원] %s : %s x%d 지급! (%d/%d)",
+                            scheduledReward.grade, scheduledReward.name, scheduledReward.count, rewardIndex, repeatCount)
+                    )
+                    writeLog("후원 번들 지급 완료: " .. playerName
+                        .. " / " .. scheduledReward.grade .. " / " .. scheduledReward.name .. " x" .. tostring(scheduledReward.count)
+                        .. " (" .. tostring(rewardIndex) .. "/" .. tostring(repeatCount) .. ")")
+                end, debug.traceback)
+
+                if not grantedOk then
+                    writeLog("후원 아이템 지급 실패: " .. playerName .. " / " .. tostring(grantedErr))
+                end
+            end)
+        end)
+
+        if not scheduledOk then
+            return false, "아이템 지급을 예약하지 못했습니다: " .. tostring(scheduledErr)
+        end
+    end
+
+    return true, string.format("아이템 지급 %d회를 예약했습니다.", repeatCount)
 end

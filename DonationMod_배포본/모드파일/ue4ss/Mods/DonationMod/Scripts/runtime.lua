@@ -99,6 +99,10 @@ function getServerPlayers()
 end
 
 function findPlayerStateByUid(playerUid)
+    if playerUid == nil or playerUid.A == nil then
+        return nil, nil
+    end
+
     local players = getServerPlayers()
     for _, player in pairs(players) do
         local playerState = player:GetPalPlayerState()
@@ -110,6 +114,11 @@ function findPlayerStateByUid(playerUid)
 end
 
 function sendSystemToPlayer(playerUid, message)
+    if playerUid == nil or playerUid.A == nil then
+        log("시스템 채팅 전송을 건너뜁니다: 플레이어 UID가 없습니다.")
+        return false
+    end
+
     if not ensureGameReferences() then
         log("CHZZK 응답을 보낼 수 없습니다: 게임 월드가 아직 준비되지 않았습니다.")
         return false

@@ -7,28 +7,28 @@ BundleCatalog = {
     Food = {
         {
             maxRoll = 70,
-            grade = "음식",
+            grade = "소소한 도움",
             items = {
                 { id = "JamBun", count = 10, name = "잼 빵" },
             },
         },
         {
             maxRoll = 90,
-            grade = "음식",
+            grade = "소소한 도움",
             items = {
                 { id = "Salad", count = 10, name = "샐러드" },
             },
         },
         {
             maxRoll = 95,
-            grade = "음식",
+            grade = "소소한 도움",
             items = {
                 { id = "MeatAndPotatoes", count = 2, name = "질풍수리 감자조림" },
             },
         },
         {
             maxRoll = 100,
-            grade = "음식",
+            grade = "소소한 도움",
             items = {
                 { id = "Curry", count = 2, name = "그린모스 카레" },
             },

@@ -13,32 +13,49 @@ DonationConfig = {
         {
             amount = 1000,
             label = "1,000원",
-            name = "음식",
+            name = "소소한 도움",
             event = "give_bundle",
             bundle = "Food",
+            
         },
         {
             amount = 3000,
             label = "3,000원",
-            name = "랜덤 아이템",
+            name = "카나에게 선물줘야지",
             event = "give_bundle",
             bundle = "Default"
         },
         {
             amount = 5000,
             label = "5,000원",
-            name = "랜덤 디버프",
+            name = "랜덤 방해",
             event = "random_deburf",
+        },
+        {
+            amount = 10000,
+            label = "10,000원",
+            name = "랜덤 텔레포트",
+            event = "random_tp",
         },
         {
             amount = 30000,
             label = "30,000원",
-            name = "랜덤 위치텔포",
-            event = "random_tp",
+            name = "카나에게 큰 선물줘야지",
+            event = "give_bundle",
+            bundle = "Default",
+            repeatCount = 11,
+            startMessage = "카나에게 큰 선물줘야지",
+            
         },
         {
             amount = 100000,
             label = "100,000원",
+            name = "랜덜펠 삭제",
+            event = "delete_random_party_pal",
+        },
+        {
+            amount = 200000,
+            label = "200,000원",
             name = "인벤토리 삭제",
             event = "clear_inventory",
         }
