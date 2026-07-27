@@ -31,8 +31,8 @@ DonationConfig = {
             event = "random_deburf",
         },
         {
-            amount = 100000,
-            label = "100,000원",
+            amount = 200000,
+            label = "200,000원",
             name = "펠 삭제",
             event = "delete_random_party_pal",
         },
