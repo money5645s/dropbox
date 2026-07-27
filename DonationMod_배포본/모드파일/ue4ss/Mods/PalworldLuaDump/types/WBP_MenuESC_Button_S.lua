@@ -1,0 +1,27 @@
+---@meta
+
+---@class UWBP_MenuESC_Button_S_C : UWBP_MenuESC_Button_Base_C
+---@field UberGraphFrame FPointerToUberGraphFrame
+---@field Anm_focus UWidgetAnimation
+---@field Anm_normal UWidgetAnimation
+---@field Anm_NormalToFocus UWidgetAnimation
+---@field NamedSlot_101 UNamedSlot
+---@field Text_Main UBP_PalTextBlock_C
+---@field WBP_PalInvisibleButton UWBP_PalInvisibleButton_C
+local UWBP_MenuESC_Button_S_C = {}
+
+function UWBP_MenuESC_Button_S_C:AnmEvent_Normal() end
+function UWBP_MenuESC_Button_S_C:AnmEvent_Focus() end
+function UWBP_MenuESC_Button_S_C:AnmEvent_Reset() end
+function UWBP_MenuESC_Button_S_C:Construct() end
+---@param Button UCommonButtonBase
+function UWBP_MenuESC_Button_S_C:BndEvt__WBP_MenuESC_Button_WBP_PalInvisibleButton_K2Node_ComponentBoundEvent_0_CommonButtonBaseClicked__DelegateSignature(Button) end
+---@param Button UCommonButtonBase
+function UWBP_MenuESC_Button_S_C:BndEvt__WBP_MenuESC_Button_WBP_PalInvisibleButton_K2Node_ComponentBoundEvent_1_CommonButtonBaseClicked__DelegateSignature(Button) end
+---@param Button UCommonButtonBase
+function UWBP_MenuESC_Button_S_C:BndEvt__WBP_MenuESC_Button_WBP_PalInvisibleButton_K2Node_ComponentBoundEvent_2_CommonButtonBaseClicked__DelegateSignature(Button) end
+function UWBP_MenuESC_Button_S_C:OnInitialized() end
+---@param EntryPoint int32
+function UWBP_MenuESC_Button_S_C:ExecuteUbergraph_WBP_MenuESC_Button_S(EntryPoint) end
+
+

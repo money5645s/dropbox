@@ -1,0 +1,103 @@
+---@meta
+
+---@class UCR_MonsterFootIK_LegendDeer_C : UControlRig
+local UCR_MonsterFootIK_LegendDeer_C = {}
+
+
+---@class URigVMMemory_Literal : URigVMMemoryStorage
+---@field LocalVariableDefault__SetVBBoneByTrace_FootTransforms__Const TArray<FTransform>
+---@field RigVMModel___SetVBBoneByTrace_0_GetCurveValue_1_1_Curve__Const FName
+---@field RigVMModel___SetVBBoneByTrace_0_DISPATCH_RigDispatch_Print_Prefix__Const FString
+---@field RigVMModel___SetVBBoneByTrace_0_DISPATCH_RigDispatch_Print_Enabled__Const boolean
+---@field RigVMModel___SetVBBoneByTrace_0_DISPATCH_RigDispatch_Print_ScreenDuration__Const float
+---@field RigVMModel___SetVBBoneByTrace_0_DISPATCH_RigDispatch_Print_ScreenColor__Const FLinearColor
+---@field RigVMModel___SetVBBoneByTrace_0_GetTransform_1_Space__Const EBoneGetterSetterMode
+---@field RigVMModel___SetVBBoneByTrace_0_Add_1_B__Const FVector
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_IsNearlyZero_Tolerance__Const double
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_Select_Values_1__Const float
+---@field _ int32
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_Multiply_B__Const double
+---@field RigVMModel___SetVBBoneByTrace_0_Add_B__Const FVector
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_1_Multiply_B__Const double
+---@field RigVMModel___SetVBBoneByTrace_0_DebugLineItemSpace_Color__Const FLinearColor
+---@field RigVMModel___SetVBBoneByTrace_0_DebugLineItemSpace_Thickness__Const float
+---@field RigVMModel___SetVBBoneByTrace_0_DebugLineItemSpace_Space__Const FRigElementKey
+---@field RigVMModel___SetVBBoneByTrace_0_DebugLineItemSpace_WorldOffset__Const FTransform
+---@field RigVMModel___SetVBBoneByTrace_0_DebugLineItemSpace_bEnabled__Const boolean
+---@field RigVMModel___SetVBBoneByTrace_0_ArraySetAtIndex_Element__Const FTransform
+---@field RigVMModel___SetVBBoneByTrace_0_SphereTraceByTraceChannel_TraceChannel__Const ETraceTypeQuery
+---@field RigVMModel___SetVBBoneByTrace_0_ArrayIterator_1_Array__Const TArray<FRigElementKey>
+---@field RigVMModel___SetVBBoneByTrace_0_DISPATCH_RigDispatch_Print_2_Prefix__Const FString
+---@field RigVMModel___SetVBBoneByTrace_0_DISPATCH_RigDispatch_Print_2_Value__Const FString
+local URigVMMemory_Literal = {}
+
+
+
+---@class URigVMMemory_Work : URigVMMemoryStorage
+---@field ExecuteContext_ FControlRigExecuteContext
+---@field RigVMModel___SetVBBoneByTrace_0_GetCurveValue_1_1_Valid boolean
+---@field RigVMModel___SetVBBoneByTrace_0_GetCurveValue_1_1_Value float
+---@field RigVMModel___SetVBBoneByTrace_0_GetCurveValue_1_1_CachedCurveIndex TArray<FCachedRigElement>
+---@field RigVMModel___SetVBBoneByTrace_0_GetCurveValue_1_Value float
+---@field RigVMModel___SetVBBoneByTrace_0_GetCurveValue_1_Valid boolean
+---@field RigVMModel___SetVBBoneByTrace_0_GetCurveValue_1_CachedCurveIndex TArray<FCachedRigElement>
+---@field RigVMModel___SetVBBoneByTrace_0_GetTransform_1_Transform FTransform
+---@field RigVMModel___SetVBBoneByTrace_0_ArrayIterator_1_Element FRigElementKey
+---@field RigVMModel___SetVBBoneByTrace_0_GetTransform_1_CachedIndex TArray<FCachedRigElement>
+---@field RigVMModel___SetVBBoneByTrace_0_Add_1_Result FVector
+---@field RigVMModel___SetVBBoneByTrace_0_Add_1_A FVector
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_Multiply_Result double
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_Select_Result float
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_Cast_Result int32
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_IsNearlyZero_Result boolean
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_GetCurveValue_1_Value float
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_GetCurveValue_1_Valid boolean
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_GetCurveValue_1_CachedCurveIndex TArray<FCachedRigElement>
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_IsNearlyZero_Value double
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_GetCurveValue_1_1_Value float
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_GetCurveValue_1_1_Valid boolean
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_GetCurveValue_1_1_CachedCurveIndex TArray<FCachedRigElement>
+---@field IntEquals boolean
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_Multiply_A double
+---@field RigVMModel___SetVBBoneByTrace_0_Add_1_B__IO FVector
+---@field RigVMModel___SetVBBoneByTrace_0_Add_Result FVector
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_1_Multiply_Result double
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_1_Select_Result float
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_1_Cast_Result int32
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_1_IsNearlyZero_Result boolean
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_1_GetCurveValue_1_Value float
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_1_GetCurveValue_1_Valid boolean
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_1_GetCurveValue_1_CachedCurveIndex TArray<FCachedRigElement>
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_1_IsNearlyZero_Value double
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_1_GetCurveValue_1_1_Value float
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_1_GetCurveValue_1_1_Valid boolean
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_1_GetCurveValue_1_1_CachedCurveIndex TArray<FCachedRigElement>
+---@field RigVMModel___SetVBBoneByTrace_0_CalcurateRootScaledFloat_1_Multiply_A double
+---@field RigVMModel___SetVBBoneByTrace_0_Add_B__IO FVector
+---@field LocalVariable__RigVMModel___SetVBBoneByTrace_0_FootTransforms TArray<FTransform>
+---@field RigVMModel___SetVBBoneByTrace_0_ArrayIterator_1_Index int32
+---@field RigVMModel___SetVBBoneByTrace_0_If_Result float
+---@field RigVMModel___SetVBBoneByTrace_0_SphereTraceByTraceChannel_bHit boolean
+---@field RigVMModel___SetVBBoneByTrace_0_SphereTraceByTraceChannel_HitLocation FVector
+---@field RigVMModel___SetVBBoneByTrace_0_SphereTraceByTraceChannel_HitNormal FVector
+---@field RigVMModel___SetVBBoneByTrace_0_Add_2_Result double
+---@field RigVMModel___SetVBBoneByTrace_0_Add_2_A double
+---@field RigVMModel___SetVBBoneByTrace_0_Add_2_B double
+---@field RigVMModel___SetVBBoneByTrace_0_If_True float
+---@field RigVMModel___SetVBBoneByTrace_0_If_False float
+---@field RigVMModel___SetVBBoneByTrace_0_ArraySetAtIndex_Element__IO FTransform
+---@field RigVMModel___SetVBBoneByTrace_0_ArrayIterator_1_Count int32
+---@field RigVMModel___SetVBBoneByTrace_0_ArrayIterator_1_Ratio float
+---@field RigVMModel___SetVBBoneByTrace_0_ArrayIterator_1_Continue boolean
+---@field RigVMModel___SetVBBoneByTrace_0_ArrayIterator_2_Element FRigElementKey
+---@field RigVMModel___SetVBBoneByTrace_0_ArrayGetAtIndex_2_1_1_Element FTransform
+---@field RigVMModel___SetVBBoneByTrace_0_ArrayIterator_2_Index int32
+---@field RigVMModel___SetVBBoneByTrace_0_RigUnit_SetTranslation_Value FVector
+---@field RigVMModel___SetVBBoneByTrace_0_RigUnit_SetTranslation_CachedIndex TArray<FCachedRigElement>
+---@field RigVMModel___SetVBBoneByTrace_0_ArrayIterator_2_Count int32
+---@field RigVMModel___SetVBBoneByTrace_0_ArrayIterator_2_Ratio float
+---@field RigVMModel___SetVBBoneByTrace_0_ArrayIterator_2_Continue boolean
+local URigVMMemory_Work = {}
+
+
+

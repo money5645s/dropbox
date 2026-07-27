@@ -1,4 +1,5 @@
-require("Pal")
+-- Pal.PalServer is loaded by main.lua. Do not require the generated Pal.lua
+-- type dump here: it exceeds UE4SS Lua's local-variable limit at runtime.
 local COLOR = {
     reset         = "\27[0m",  -- 초기화
     bold          = "\27[1m",  -- 굵게
@@ -73,8 +74,32 @@ function ensureGameReferences()
     return PalUtility ~= nil and PalUtility:IsValid() and World ~= nil and World:IsValid()
 end
 
+function getServerPlayers()
+    local players = {}
+    local seen = {}
+
+    local function addPlayers(found)
+        for _, player in pairs(found or {}) do
+            if player ~= nil and player:IsValid() then
+                local key = player:GetFullName()
+                if not seen[key] then
+                    seen[key] = true
+                    table.insert(players, player)
+                end
+            end
+        end
+    end
+
+    if PalServer ~= nil then
+        addPlayers(PalServer:getServerPlayers())
+    end
+    addPlayers(FindAllOf("APalPlayerController"))
+    addPlayers(FindAllOf("PalPlayerController"))
+    return players
+end
+
 function findPlayerStateByUid(playerUid)
-    local players = PalPlayerControllers:getServerPlayers() or {}
+    local players = getServerPlayers()
     for _, player in pairs(players) do
         local playerState = player:GetPalPlayerState()
         if playerState ~= nil and playerState:IsValid() and playerState.PlayerUId.A == playerUid.A then
@@ -88,6 +113,23 @@ function sendSystemToPlayer(playerUid, message)
     if not ensureGameReferences() then
         log("CHZZK 응답을 보낼 수 없습니다: 게임 월드가 아직 준비되지 않았습니다.")
         return false
+    end
+
+    local _, playerController = findPlayerStateByUid(playerUid)
+    if playerController ~= nil and playerController:IsValid() and PalServer ~= nil then
+        local controllerOk, controllerErr = pcall(function()
+            local playerWorld = playerController:GetWorld()
+            if playerWorld ~= nil and playerWorld:IsValid() then
+                PalServer.PalWorld = playerWorld
+                World = playerWorld
+            end
+            PalServer.PalUtility = PalUtility
+            PalServer:sendSystemToPalPlayerWithController(tostring(message), playerController)
+        end)
+        if controllerOk then
+            return true
+        end
+        log("플레이어 컨트롤러를 통한 시스템 채팅 전송 실패: " .. tostring(controllerErr))
     end
 
     local ok, err = pcall(function()
@@ -126,7 +168,7 @@ function findPlayer(id)
         return result
     end
 
-    local players = PalPlayerControllers:getServerPlayers() or {}
+    local players = getServerPlayers()
     for _, player in pairs(players) do
         local playerState = player:GetPalPlayerState()
         if playerState ~= nil and playerState:IsValid() then

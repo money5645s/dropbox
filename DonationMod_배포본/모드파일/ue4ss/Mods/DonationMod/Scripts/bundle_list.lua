@@ -3,82 +3,61 @@ BundleCatalog = {
     -- 스피어 보따리: 세 보상 중 하나를 균등 확률로 지급합니다.
     -- minCount와 maxCount를 함께 설정하면 그 범위 안에서 수량을 무작위로 정합니다.
 
-    Sphere = {
+    --- 1,000원 음식지급
+    Food = {
+        {
+            maxRoll = 70,
+            grade = "음식",
+            items = {
+                { id = "JamBun", count = 10, name = "잼 빵" },
+            },
+        },
         {
             maxRoll = 90,
-            grade = "랜덤 펠 스피어",
+            grade = "음식",
             items = {
-                { id = "PalSphere", count = 1, name = "펠 스피어" },
+                { id = "Salad", count = 10, name = "샐러드" },
             },
         },
         {
-            maxRoll = 96,
-            grade = "랜덤 펠 스피어",
+            maxRoll = 95,
+            grade = "음식",
             items = {
-                { id = "PalSphere_Mega", count = 1, name = "메가 스피어" },
-            },
-        },
-        {
-            maxRoll = 99,
-            grade = "랜덤 펠 스피어",
-            items = {
-                { id = "PalSphere_Giga", count = 1, name = "기가 스피어" },
+                { id = "MeatAndPotatoes", count = 2, name = "질풍수리 감자조림" },
             },
         },
         {
             maxRoll = 100,
-            grade = "랜덤 펠 스피어",
+            grade = "음식",
             items = {
-                { id = "PalSphere_Tera", count = 1, name = "테라 스피어" },
+                { id = "Curry", count = 2, name = "그린모스 카레" },
             },
         }
     },
 
+    -- 3,000원 아이템 지급
     Default = {
-        {
-            maxRoll = 5,
-            grade = "잭팟 (5%)",
-            items = {
-                { id = "PalSphere_Legend", count = 1, name = "전설 스피어" },
-                { id = "PredatorCrystal", count = 1, name = "프레데터 코어" },
-                { id = "PalCrystal_Ex", count = 1, name = "고대 문명 부품" },
-                { id = "CrudeOil", count = 1, name = "원유" },
-                { id = "Cake", count = 1, name = "케이크" },
-            }
-        },
-        {
-            maxRoll = 30,
-            grade = "유니크 (25%)",
-            items = {
-                { id = "PalSphere_Mega", count = 5, name = "메가 스피어" },
-                { id = "PalSphere_Giga", count = 5, name = "기가 스피어" },
-                { id = "PalOil", count = 5, name = "고급 팰 기름" },
-                { id = "FireOrgan", count = 5, name = "발화 기관" },
-                { id = "ElectricOrgan", count = 5, name = "발전 기관" },
-                { id = "IceOrgan", count = 5, name = "빙결 기관" },
-                { id = "Venom", count = 5, name = "독샘" },
-                { id = "Coal", count = 5, name = "석탄" },
-                { id = "Quartz", count = 5, name = "순수한 석영" },
-            }
-        },
-        {
-            maxRoll = 100,
-            grade = "레어 (70%)",
-            items = {
-                { id = "Baked_Berries", count = 7, name = "구운 열매" },
-                { id = "Pan", count = 7, name = "빵" },
-                { id = "PalSphere", count = 7, name = "펠 스피어" },
-                { id = "PalFluid", count = 7, name = "수생 팰의 점액" },
-                { id = "Leather", count = 7, name = "가죽" },
-                { id = "Bone", count = 7, name = "뼈" },
-                { id = "CopperOre", count = 7, name = "금속 광석" }
-            }
-        }
+        { maxRoll = 7, grade = "스피어류 (33%)", items = { { id = "PalSphere_Tera", count = 5, name = "테라 스피어" } } },
+        { maxRoll = 14, grade = "스피어류 (33%)", items = { { id = "PalSphere_Master", count = 3, name = "울트라 스피어" } } },
+        { maxRoll = 21, grade = "스피어류 (33%)", items = { { id = "PalSphere_Legend", count = 3, name = "전설 스피어" } } },
+        { maxRoll = 28, grade = "스피어류 (33%)", items = { { id = "PalSphere_Ultimate", count = 3, name = "얼티밋 스피어" } } },
+        { maxRoll = 33, grade = "스피어류 (33%)", items = { { id = "PalSphere_Exotic", count = 3, name = "인피니티 스피어" } } },
+
+        { maxRoll = 40, grade = "재료류 (32%)", items = { { id = "Processed_Wood", count = 30, name = "나무 판자" } } },
+        { maxRoll = 47, grade = "재료류 (32%)", items = { { id = "Leather", count = 20, name = "가죽" } } },
+        { maxRoll = 53, grade = "재료류 (32%)", items = { { id = "Wood_Fine", count = 30, name = "단단한 목재" } } },
+        { maxRoll = 59, grade = "재료류 (32%)", items = { { id = "Cloth", count = 20, name = "천" } } },
+        { maxRoll = 65, grade = "재료류 (32%)", items = { { id = "Cloth2", count = 20, name = "상급 천" } } },
+
+        { maxRoll = 72, grade = "주괴류 (35%)", items = { { id = "IronIngot", count = 30, name = "제련 주괴" } } },
+        { maxRoll = 79, grade = "주괴류 (35%)", items = { { id = "StealIngot", count = 20, name = "팰 금속 주괴" } } },
+        { maxRoll = 85, grade = "주괴류 (35%)", items = { { id = "Plastic", count = 20, name = "플라스틸" } } },
+        { maxRoll = 91, grade = "주괴류 (35%)", items = { { id = "ManganeseIngot", count = 10, name = "코랄리움 주괴" } } },
+        { maxRoll = 95, grade = "주괴류 (35%)", items = { { id = "StainlessSteel", count = 10, name = "헥소라이트" } } },
+        { maxRoll = 98, grade = "주괴류 (35%)", items = { { id = "SkyislandIngot", count = 5, name = "솔라이트 주괴" } } },
+        { maxRoll = 100, grade = "주괴류 (35%)", items = { { id = "AncientParts2", count = 1, name = "고대 문명의 코어" } } },
     }
 }
-
-
-
 
 function selectDonationConsumable(bundleName)
     local bundle = BundleCatalog[bundleName]

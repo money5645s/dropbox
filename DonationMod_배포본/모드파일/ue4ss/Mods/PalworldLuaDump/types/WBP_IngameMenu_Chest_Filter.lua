@@ -1,0 +1,56 @@
+---@meta
+
+---@class UWBP_IngameMenu_Chest_Filter_C : UUserWidget
+---@field UberGraphFrame FPointerToUberGraphFrame
+---@field Image_Dark UImage
+---@field Text_GuildMenberHead UBP_PalTextBlock_C
+---@field WBP_CommonButton_Confirm UWBP_CommonButton_1_C
+---@field WBP_IngameMenu_ChestSetting_FilterBlock UWBP_IngameMenu_ChestSetting_FilterBlock_C
+---@field WBP_Menu_btn UWBP_Menu_btn_C
+---@field WBP_PalCommonWindow UWBP_PalCommonWindow_C
+---@field OnClickedCloseButton FWBP_IngameMenu_Chest_Filter_COnClickedCloseButton
+---@field OnClickedAllCheckButton FWBP_IngameMenu_Chest_Filter_COnClickedAllCheckButton
+---@field OnClickedAllUncheckButton FWBP_IngameMenu_Chest_Filter_COnClickedAllUncheckButton
+---@field OnClickedApplyButton FWBP_IngameMenu_Chest_Filter_COnClickedApplyButton
+---@field CustomNameHintText FDataTableRowHandle
+---@field OnEditedCustomName FWBP_IngameMenu_Chest_Filter_COnEditedCustomName
+---@field OnClickedCustomNameEditButton FWBP_IngameMenu_Chest_Filter_COnClickedCustomNameEditButton
+local UWBP_IngameMenu_Chest_Filter_C = {}
+
+---@param bEnableNameEdit boolean
+function UWBP_IngameMenu_Chest_Filter_C:SetEnableCustomNameEdit(bEnableNameEdit) end
+---@param bEditing boolean
+function UWBP_IngameMenu_Chest_Filter_C:IsEditingCustomName(bEditing) end
+function UWBP_IngameMenu_Chest_Filter_C:EndEditCustomName() end
+function UWBP_IngameMenu_Chest_Filter_C:StartEditCustomName() end
+---@param InCustomName FString
+function UWBP_IngameMenu_Chest_Filter_C:SetCustomName(InCustomName) end
+function UWBP_IngameMenu_Chest_Filter_C:FocusToConfirmButton() end
+---@param Checked boolean
+function UWBP_IngameMenu_Chest_Filter_C:SetAllChecker(Checked) end
+function UWBP_IngameMenu_Chest_Filter_C:SetupAsItemFilter() end
+---@param FilterId FName
+---@param FilterTextId FName
+---@return UWBP_IngameMenu_Chest_FilterContent_C
+function UWBP_IngameMenu_Chest_Filter_C:AddContentItem(FilterId, FilterTextId) end
+function UWBP_IngameMenu_Chest_Filter_C:ClearContent() end
+---@param NewParam UWidget
+function UWBP_IngameMenu_Chest_Filter_C:GetDesiredFocusTarget(NewParam) end
+function UWBP_IngameMenu_Chest_Filter_C:BndEvt__WBP_IngameMenu_Chest_Filter_WBP_Menu_btn_K2Node_ComponentBoundEvent_0_OnButtonClicked__DelegateSignature() end
+function UWBP_IngameMenu_Chest_Filter_C:BndEvt__WBP_IngameMenu_Chest_Filter_WBP_CommonButton_Confirm_K2Node_ComponentBoundEvent_1_OnClicked__DelegateSignature() end
+function UWBP_IngameMenu_Chest_Filter_C:BndEvt__WBP_IngameMenu_Chest_Filter_WBP_IngameMenu_ChestSetting_FilterBlock_K2Node_ComponentBoundEvent_6_OnClickedAllCheckButton__DelegateSignature() end
+function UWBP_IngameMenu_Chest_Filter_C:BndEvt__WBP_IngameMenu_Chest_Filter_WBP_IngameMenu_ChestSetting_FilterBlock_K2Node_ComponentBoundEvent_7_OnClickedAllUncheckButton__DelegateSignature() end
+function UWBP_IngameMenu_Chest_Filter_C:BndEvt__WBP_IngameMenu_Chest_Filter_WBP_IngameMenu_ChestSetting_FilterBlock_K2Node_ComponentBoundEvent_8_OnClickedEditCustomNameButton__DelegateSignature() end
+---@param NewCustomName FString
+function UWBP_IngameMenu_Chest_Filter_C:BndEvt__WBP_IngameMenu_Chest_Filter_WBP_IngameMenu_ChestSetting_FilterBlock_K2Node_ComponentBoundEvent_9_OnEditedCustomName__DelegateSignature(NewCustomName) end
+---@param EntryPoint int32
+function UWBP_IngameMenu_Chest_Filter_C:ExecuteUbergraph_WBP_IngameMenu_Chest_Filter(EntryPoint) end
+function UWBP_IngameMenu_Chest_Filter_C:OnClickedCustomNameEditButton__DelegateSignature() end
+---@param NewCustomName FString
+function UWBP_IngameMenu_Chest_Filter_C:OnEditedCustomName__DelegateSignature(NewCustomName) end
+function UWBP_IngameMenu_Chest_Filter_C:OnClickedApplyButton__DelegateSignature() end
+function UWBP_IngameMenu_Chest_Filter_C:OnClickedAllUncheckButton__DelegateSignature() end
+function UWBP_IngameMenu_Chest_Filter_C:OnClickedAllCheckButton__DelegateSignature() end
+function UWBP_IngameMenu_Chest_Filter_C:OnClickedCloseButton__DelegateSignature() end
+
+

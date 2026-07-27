@@ -7,7 +7,7 @@ local function isValidObject(object)
 end
 
 local function findPlayerInventory(playerName)
-    local players = PalPlayerControllers:getServerPlayers() or {}
+    local players = getServerPlayers()
 
     for _, playerController in pairs(players) do
         if isValidObject(playerController) then
@@ -32,29 +32,24 @@ return function(context)
         return false, selectErr
     end
 
-    if type(item.id) ~= "string" or item.id == "" then
+    if type(item.id) ~= "string" or item.id == ""
+        or type(item.count) ~= "number" or item.count < 1
+        or item.count ~= math.floor(item.count) then
         return false, "보상 아이템 설정이 올바르지 않습니다."
-    end
-
-    local selectedCount, countErr = selectDonationItemCount(item)
-    if selectedCount == nil then
-        return false, countErr
     end
 
     -- 지연 콜백에 안전한 Lua 값만 전달합니다.
     local playerName = tostring(context.playerName)
-    local itemId = item.id
+    local itemIdentifier = item.id
     local itemName = tostring(item.name or item.id)
-    local itemCount = selectedCount
+    local itemId = itemName
+    local itemCount = item.count
     local itemGrade = tostring(grade or "일반")
     local writeLog = context.log
     local sendSystemToPlayer = context.sendSystemToPlayer
-    local repeatIndex = math.max(1, math.floor(tonumber(context.repeatIndex) or 1))
-    local repeatIntervalMs = math.max(0, math.floor(tonumber(context.repeatIntervalMs) or 250))
-    local grantDelayMs = 100 + ((repeatIndex - 1) * repeatIntervalMs)
 
     local scheduledOk, scheduledErr = pcall(function()
-        ExecuteInGameThreadWithDelay(grantDelayMs, function()
+        ExecuteInGameThreadWithDelay(100, function()
             local grantedOk, grantedErr = xpcall(function()
                 local playerController, inventoryOrErr = findPlayerInventory(playerName)
                 if playerController == nil then
@@ -66,11 +61,11 @@ return function(context)
                     .. " / " .. itemId .. " x" .. tostring(itemCount))
 
                 -- 현재 서버의 AddItem_ServerInternal 인자 순서입니다.
-                inventory:AddItem_ServerInternal(FName(itemId), itemCount, false, 0.0, false)
+                inventory:AddItem_ServerInternal(FName(itemIdentifier), itemCount, false, 0.0, false)
 
                 sendSystemToPlayer(
                     playerController:GetPlayerUId(),
-                    string.format("[후원] %s 아이템: %s x%d 지급!", itemGrade, itemName, itemCount)
+                    string.format("[후원] %s 등급 보상: %s x%d 지급!", itemGrade, itemName, itemCount)
                 )
                 writeLog("후원 번들 지급 완료: " .. playerName
                     .. " / " .. itemGrade .. " / " .. itemId .. " x" .. tostring(itemCount))

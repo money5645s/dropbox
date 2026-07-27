@@ -1,4 +1,7 @@
-require("Pal")
+-- Do not load Mods/shared/Pal.lua: it is a full generated type dump and
+-- exceeds UE4SS Lua's 200-local limit. The lightweight server helper loads
+-- the hook definitions DonationMod actually needs.
+require("Pal.PalServer")
 
 local scriptSource = debug.getinfo(1, "S").source or ""
 local scriptPath = scriptSource:sub(1, 1) == "@" and scriptSource:sub(2) or scriptSource

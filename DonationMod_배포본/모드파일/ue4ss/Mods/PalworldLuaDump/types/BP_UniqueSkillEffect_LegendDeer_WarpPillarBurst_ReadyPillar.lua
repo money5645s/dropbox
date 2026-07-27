@@ -1,0 +1,15 @@
+---@meta
+
+---@class ABP_UniqueSkillEffect_LegendDeer_WarpPillarBurst_ReadyPillar_C : ABP_SkillEffectBase_C
+---@field UberGraphFrame FPointerToUberGraphFrame
+---@field Niagara UNiagaraComponent
+local ABP_UniqueSkillEffect_LegendDeer_WarpPillarBurst_ReadyPillar_C = {}
+
+function ABP_UniqueSkillEffect_LegendDeer_WarpPillarBurst_ReadyPillar_C:ReceiveBeginPlay() end
+function ABP_UniqueSkillEffect_LegendDeer_WarpPillarBurst_ReadyPillar_C:Act() end
+---@param DeltaSecond double
+function ABP_UniqueSkillEffect_LegendDeer_WarpPillarBurst_ReadyPillar_C:FadeOutEffect(DeltaSecond) end
+---@param EntryPoint int32
+function ABP_UniqueSkillEffect_LegendDeer_WarpPillarBurst_ReadyPillar_C:ExecuteUbergraph_BP_UniqueSkillEffect_LegendDeer_WarpPillarBurst_ReadyPillar(EntryPoint) end
+
+

@@ -5,11 +5,11 @@
     },
     {
         "mod_name": "ConsoleCommandsMod",
-        "mod_enabled": false
+        "mod_enabled": true
     },
     {
         "mod_name": "ConsoleEnablerMod",
-        "mod_enabled": false
+        "mod_enabled": true
     },
     {
         "mod_name": "SplitScreenMod",
@@ -29,6 +29,14 @@
     },
     {
         "mod_name": "Keybinds",
+        "mod_enabled": true
+    },
+    {
+        "mod_name": "TestMod",
+        "mod_enabled": true
+    },
+    {
+        "mod_name": "DonationMod",
         "mod_enabled": true
     }
 ]

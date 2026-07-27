@@ -1,0 +1,72 @@
+---@meta
+
+---@class UWBP_MenuESC_PlayerMenu_C : UUserWidget
+---@field UberGraphFrame FPointerToUberGraphFrame
+---@field Base UImage
+---@field BaseShadow UImage
+---@field BP_PalTextBlock_C_122 UBP_PalTextBlock_C
+---@field Dot_0 UImage
+---@field Dot_1 UImage
+---@field Frame UImage
+---@field HeadBase UImage
+---@field WBP_GuildMemberMenuList_Block UWBP_GuildMemberMenuList_C
+---@field WBP_GuildMemberMenuList_CopyPlayerUId UWBP_GuildMemberMenuList_C
+---@field WBP_GuildMemberMenuList_CopyUserId UWBP_GuildMemberMenuList_C
+---@field WBP_GuildMemberMenuList_Mute UWBP_GuildMemberMenuList_C
+---@field WBP_GuildMemberMenuList_UnBlock UWBP_GuildMemberMenuList_C
+---@field WBP_GuildMemberMenuList_UnMute UWBP_GuildMemberMenuList_C
+---@field WBP_GuildMemberMenuList_UserReport UWBP_GuildMemberMenuList_C
+---@field WBP_PalInvisibleButton UWBP_PalInvisibleButton_C
+---@field UserIDCopyMsgID FDataTableRowHandle
+---@field PlayerUIDCopyMsgID FDataTableRowHandle
+---@field PlayerMuteMsgID FDataTableRowHandle
+---@field PlayerBlockMsgID FDataTableRowHandle
+---@field OnPlayerMenuCopyUserId FWBP_MenuESC_PlayerMenu_COnPlayerMenuCopyUserId
+---@field OnPlayerMenuCopyPlayerUId FWBP_MenuESC_PlayerMenu_COnPlayerMenuCopyPlayerUId
+---@field OnPlayerMenuMute FWBP_MenuESC_PlayerMenu_COnPlayerMenuMute
+---@field OnPlayerMenuBlock FWBP_MenuESC_PlayerMenu_COnPlayerMenuBlock
+---@field TargetWidget UWBP_MenuESCPlayerListItem_C
+---@field OnPlayerMenuUnMute FWBP_MenuESC_PlayerMenu_COnPlayerMenuUnMute
+---@field PlayerUnMuteMsgID FDataTableRowHandle
+---@field OnPlayerMenuUnBlock FWBP_MenuESC_PlayerMenu_COnPlayerMenuUnBlock
+---@field PlayerUnBlockMsgID FDataTableRowHandle
+---@field OnPlayerMenuCancel FWBP_MenuESC_PlayerMenu_COnPlayerMenuCancel
+---@field OnPlayerMenuUserReport FWBP_MenuESC_PlayerMenu_COnPlayerMenuUserReport
+---@field PlayerUserReportMsgID FDataTableRowHandle
+local UWBP_MenuESC_PlayerMenu_C = {}
+
+---@param TargetWidget UWidget
+function UWBP_MenuESC_PlayerMenu_C:GetTopFocusTarget(TargetWidget) end
+---@param DisplayName FString
+function UWBP_MenuESC_PlayerMenu_C:SetPlayerName(DisplayName) end
+---@param Button UWBP_GuildMemberMenuList_C
+function UWBP_MenuESC_PlayerMenu_C:BndEvt__WBP_GuildMemberMenu_WBP_GuildMemberMenuList_K2Node_ComponentBoundEvent_0_OnClicked__DelegateSignature(Button) end
+---@param Button UWBP_GuildMemberMenuList_C
+function UWBP_MenuESC_PlayerMenu_C:BndEvt__WBP_GuildMemberMenu_WBP_GuildMemberMenuList_1_K2Node_ComponentBoundEvent_1_OnClicked__DelegateSignature(Button) end
+---@param Button UWBP_GuildMemberMenuList_C
+function UWBP_MenuESC_PlayerMenu_C:BndEvt__WBP_MenuESC_PlayerMenu_WBP_GuildMemberMenuList_2_K2Node_ComponentBoundEvent_2_OnClicked__DelegateSignature(Button) end
+---@param Button UWBP_GuildMemberMenuList_C
+function UWBP_MenuESC_PlayerMenu_C:BndEvt__WBP_MenuESC_PlayerMenu_WBP_GuildMemberMenuList_3_K2Node_ComponentBoundEvent_3_OnClicked__DelegateSignature(Button) end
+---@param Button UWBP_GuildMemberMenuList_C
+function UWBP_MenuESC_PlayerMenu_C:BndEvt__WBP_MenuESC_PlayerMenu_WBP_GuildMemberMenuList_UnMute_K2Node_ComponentBoundEvent_4_OnClicked__DelegateSignature(Button) end
+---@param Button UWBP_GuildMemberMenuList_C
+function UWBP_MenuESC_PlayerMenu_C:BndEvt__WBP_MenuESC_PlayerMenu_WBP_GuildMemberMenuList_UnBlock_K2Node_ComponentBoundEvent_5_OnClicked__DelegateSignature(Button) end
+---@param Button UCommonButtonBase
+function UWBP_MenuESC_PlayerMenu_C:BndEvt__WBP_MenuESC_PlayerMenu_WBP_PalInvisibleButton_K2Node_ComponentBoundEvent_6_CommonButtonBaseClicked__DelegateSignature(Button) end
+function UWBP_MenuESC_PlayerMenu_C:OnInitialized() end
+---@param Button UWBP_GuildMemberMenuList_C
+function UWBP_MenuESC_PlayerMenu_C:BndEvt__WBP_MenuESC_PlayerMenu_WBP_GuildMemberMenuList_UserReport_K2Node_ComponentBoundEvent_7_OnClicked__DelegateSignature(Button) end
+---@param EntryPoint int32
+function UWBP_MenuESC_PlayerMenu_C:ExecuteUbergraph_WBP_MenuESC_PlayerMenu(EntryPoint) end
+function UWBP_MenuESC_PlayerMenu_C:OnPlayerMenuUserReport__DelegateSignature() end
+function UWBP_MenuESC_PlayerMenu_C:OnPlayerMenuCancel__DelegateSignature() end
+function UWBP_MenuESC_PlayerMenu_C:OnPlayerMenuUnBlock__DelegateSignature() end
+function UWBP_MenuESC_PlayerMenu_C:OnPlayerMenuUnMute__DelegateSignature() end
+function UWBP_MenuESC_PlayerMenu_C:OnPlayerMenuBlock__DelegateSignature() end
+function UWBP_MenuESC_PlayerMenu_C:OnPlayerMenuMute__DelegateSignature() end
+---@param inTargetWidget UWBP_MenuESCPlayerListItem_C
+function UWBP_MenuESC_PlayerMenu_C:OnPlayerMenuCopyPlayerUId__DelegateSignature(inTargetWidget) end
+---@param inTargetWidget UWBP_MenuESCPlayerListItem_C
+function UWBP_MenuESC_PlayerMenu_C:OnPlayerMenuCopyUserId__DelegateSignature(inTargetWidget) end
+
+

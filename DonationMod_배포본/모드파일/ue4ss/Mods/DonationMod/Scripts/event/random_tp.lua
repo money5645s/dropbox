@@ -1,8 +1,5 @@
--- 후원 대상 플레이어를 미리 등록한 좌표 중 한 곳의 상공으로 순간이동시킵니다.
--- 좌표는 "팰월드 랜덤 좌표 100개.txt"의 X, Y 값을 그대로 옮긴 것입니다.
-
 local FALL_HEIGHT_Z = 30000.0
-local SCALE_FACTOR = 500.0 -- 팰월드 지도 좌표(m)를 언리얼 엔진 좌표(cm)로 변환하는 배율
+local SCALE_FACTOR = 500.0
 
 local RANDOM_LOCATIONS = {
     { x = -618, y = -618 }, { x = -635, y = -383 }, { x = -157, y = -183 },
@@ -41,82 +38,34 @@ local RANDOM_LOCATIONS = {
     { x = 376, y = -212 },
 }
 
--- 이벤트 파일은 후원마다 다시 불러와질 수 있으므로 난수 시드는 한 번만 초기화합니다.
-if DonationRandomTeleportSeeded ~= true then
-    math.randomseed(os.time())
-    DonationRandomTeleportSeeded = true
-end
-
-local function selectRandomLocation()
-    -- 1~100 번호를 무작위로 뽑아 같은 번호의 좌표를 가져옵니다.
-    local locationIndex = math.random(1, #RANDOM_LOCATIONS)
-    return RANDOM_LOCATIONS[locationIndex], locationIndex
-end
-
 local function isValidObject(object)
     return object ~= nil and object:IsValid()
 end
 
-local function getPlayerPawn(playerUid)
-    local _, playerController = findPlayerStateByUid(playerUid)
-    if not isValidObject(playerController) then
-        return nil, "대상 플레이어 컨트롤러를 찾지 못했습니다."
+return function(context)
+    local _, playerController = findPlayerStateByUid(context.playerUid)
+    if not isValidObject(playerController) or not isValidObject(playerController.AcknowledgedPawn) then
+        return false, "텔레포트할 플레이어를 찾지 못했습니다."
     end
 
     local pawn = playerController.AcknowledgedPawn
-    if not isValidObject(pawn) then
-        return nil, "대상 플레이어 캐릭터를 찾지 못했습니다."
+    local destination = RANDOM_LOCATIONS[math.random(1, #RANDOM_LOCATIONS)]
+    local targetLocation = {
+        X = destination.x * SCALE_FACTOR,
+        Y = destination.y * SCALE_FACTOR,
+        Z = FALL_HEIGHT_Z,
+    }
+
+    if pawn:K2_TeleportTo(targetLocation, pawn:K2_GetActorRotation()) == false then
+        return false, "랜덤 좌표로 순간이동하지 못했습니다."
     end
 
-    return pawn, nil
-end
-
-return function(context)
-    local calledOk, resultOrErr = xpcall(function()
-        local pawn, pawnErr = getPlayerPawn(context.playerUid)
-        if pawn == nil then
-            error(pawnErr)
-        end
-
-        local destination, locationIndex = selectRandomLocation()
-        local rotation = pawn:K2_GetActorRotation()
-
-        -- 지도 좌표(m)를 월드 좌표(cm)로 스케일 변환
-        local targetLocation = {
-            X = destination.x * SCALE_FACTOR,
-            Y = destination.y * SCALE_FACTOR,
-            Z = FALL_HEIGHT_Z,
-        }
-
-        -- 현재 시야 방향은 유지하고, 등록 좌표의 상공으로만 이동합니다.
-        local teleported = pawn:K2_TeleportTo(targetLocation, rotation)
-        if teleported == false then
-            error("랜덤 좌표로 순간이동하지 못했습니다.")
-        end
-
-        return { destination = destination, index = locationIndex }
-    end, debug.traceback)
-
-    if not calledOk then
-        context.log("랜덤 좌표 텔레포트 이벤트 실패: " .. tostring(context.playerName)
-            .. " / " .. tostring(resultOrErr))
-        return false, tostring(resultOrErr)
-    end
-
-    local destination = resultOrErr.destination
-    local locationIndex = resultOrErr.index
-
-    local message = string.format(
-        "랜덤 좌표 상공으로 이동했습니다. (X: %d, Y: %d)",
-        destination.x,
-        destination.y
-    )
-    context.sendSystemToPlayer(context.playerUid, "[후원] " .. message)
+    local message = string.format("랜덤 좌표로 이동했습니다. (X: %d, Y: %d)", destination.x, destination.y)
+    context.sendSystemToPlayer(playerController:GetPlayerUId(), "[후원] " .. message)
     context.log("랜덤 좌표 텔레포트 완료: " .. tostring(context.playerName)
-        .. " / 좌표 번호=" .. tostring(locationIndex)
         .. " / X=" .. tostring(destination.x)
         .. " / Y=" .. tostring(destination.y)
         .. " / Z=" .. tostring(FALL_HEIGHT_Z))
 
-    return true
+    return true, message
 end

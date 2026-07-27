@@ -1,0 +1,17 @@
+---@meta
+
+---@class ABP_PalRandomIncidentObjectPlacement_PalNest_ThunderFluffyBird_C : APalRandomIncidentObjectPlacement
+---@field BP_PalMapObjectSpawnerTreasureBox_VisibleContent_SkyIslandDrop4 UChildActorComponent
+---@field BP_PalMapObjectSpawnerTreasureBox_VisibleContent_SkyIslandDrop3 UChildActorComponent
+---@field BP_PalMapObjectSpawnerTreasureBox_VisibleContent_SkyIslandDrop2 UChildActorComponent
+---@field BP_PalMapObjectSpawnerTreasureBox_VisibleContent_SkyIslandDrop1 UChildActorComponent
+---@field BP_PalMapObjectSpawnerTreasureBox_VisibleContent_SkyIslandDrop UChildActorComponent
+---@field BP_PalRandomIncidentPlacementEggDataComponent2 UBP_PalRandomIncidentPlacementEggDataComponent_C
+---@field BP_PalRandomIncidentPlacementEggDataComponent1 UBP_PalRandomIncidentPlacementEggDataComponent_C
+---@field BP_PalRandomIncidentPlacementEggDataComponent UBP_PalRandomIncidentPlacementEggDataComponent_C
+---@field StaticMesh UStaticMeshComponent
+---@field DefaultSceneRoot USceneComponent
+local ABP_PalRandomIncidentObjectPlacement_PalNest_ThunderFluffyBird_C = {}
+
+
+

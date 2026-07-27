@@ -13,15 +13,15 @@ DonationConfig = {
         {
             amount = 1000,
             label = "1,000원",
-            name = "랜덤 펠 스피어",
-            event = "give_item",
-            bundle = "Sphere",
+            name = "음식",
+            event = "give_bundle",
+            bundle = "Food",
         },
         {
             amount = 3000,
             label = "3,000원",
             name = "랜덤 아이템",
-            event = "give_item",
+            event = "give_bundle",
             bundle = "Default"
         },
         {
