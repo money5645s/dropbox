@@ -37,6 +37,28 @@ return function(context)
         return false, tostring(errorMessage)
     end
 
+    -- Some player states absorb the first damage tick without immediately
+    -- completing the death transition. Apply one confirmation hit shortly
+    -- afterwards so a single donation event always finishes the kill.
+    local targetUid = context.playerUid
+    local targetName = context.playerName
+    local scheduledOk, scheduleErr = pcall(function()
+        ExecuteInGameThreadWithDelay(200, function()
+            local followupOk, followupApplied, followupErr = xpcall(function()
+                return damagePlayer(targetUid)
+            end, debug.traceback)
+            if not followupOk or not followupApplied then
+                local errorMessage = followupOk and followupErr or followupApplied
+                context.log("즉사 확인 피해 적용 실패: " .. tostring(targetName)
+                    .. " / " .. tostring(errorMessage))
+            end
+        end)
+    end)
+    if not scheduledOk then
+        context.log("즉사 확인 피해 예약 실패: " .. tostring(targetName)
+            .. " / " .. tostring(scheduleErr))
+    end
+
     context.sendSystemToPlayer(context.playerUid, "[후원] 50,000원 강력한 피해 이벤트가 적용되었습니다.")
     context.log("플레이어 즉사 이벤트 완료: " .. tostring(context.playerName)
         .. " / 피해 " .. tostring(KILL_DAMAGE))

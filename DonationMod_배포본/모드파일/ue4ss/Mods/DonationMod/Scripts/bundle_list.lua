@@ -1,4 +1,5 @@
 
+--[[
 BundleCatalog = {
     Normal = {
         {
@@ -148,8 +149,98 @@ function selectDonationConsumable(bundleName)
     return nil, nil, "후원 아이템 룰렛 목록을 선택하지 못했습니다."
 end
 
--- 5,000원 팰 알 룰렛입니다.
--- 캐릭터 ID는 팰월드의 내부 ID이며, 실제 지급할 알 아이템 ID는 이벤트에서 생성합니다.
+-- 5,000원 팰 알 룰렛
+]]
+
+BundleCatalog = {
+    Default = {
+        {
+            maxRoll = 3,
+            grade = "에픽 (3%)",
+            items = {
+                { id = "PalSphere_Ultimate", count = 1, name = "얼티밋 스피어" },
+                { id = "PalRevive", count = 1, name = "부활약" },
+                { id = "Homeward", count = 1, name = "귀환의 뇌운" },
+                { id = "Supplement", count = 1, name = "영양제" },
+                { id = "MachineParts2", count = 1, name = "전자 기판" },
+                { id = "StatusPointResetSan", count = 1, name = "기억 삭제 약" },
+            }
+        },
+        {
+            maxRoll = 10,
+            grade = "유니크 (7%)",
+            items = {
+                { id = "TreasureBoxKey02", count = 1, name = "은 열쇠" },
+                { id = "PalSphere_Master", count = 1, name = "울트라 스피어" },
+                { id = "PalSphere_Legend", count = 5, name = "전설 스피어" },
+                { id = "Potion_High", count = 1, name = "고품질 회복약" },
+                { id = "TreasureMap05", count = 1, name = "보물지도" },
+                { id = "MeteorDrop", count = 1, name = "운석 파편" },
+                { id = "FishingBait_2", count = 5, name = "질 좋은 낚시 미끼" },
+            }
+        },
+        {
+            maxRoll = 30,
+            grade = "레어 (20%)",
+            items = {
+                { id = "FireOrgan", count = 1, name = "발화 기관" },
+                { id = "IceOrgan", count = 1, name = "빙결 기관" },
+                { id = "PalFluid", count = 1, name = "수생 팰의 점액" },
+                { id = "PalOil", count = 1, name = "고급 팰 기름" },
+                { id = "Medicines", count = 1, name = "의약품" },
+                { id = "Potion", count = 1, name = "회복약" },
+                { id = "Cloth2", count = 1, name = "상급 천" },
+                { id = "TreasureBoxKey01", count = 1, name = "구리 열쇠" },
+                { id = "PalSphere_Tera", count = 10, name = "테라 스피어" },
+                { id = "ElectricOrgan", count = 1, name = "발전 기관" },
+                { id = "Venom", count = 1, name = "독샘" },
+                { id = "Cake", count = 1, name = "케이크" },
+                { id = "Mushroom", count = 1, name = "이상한 버섯" },
+                { id = "Coal", count = 10, name = "석탄" },
+                { id = "CrudeOil", count = 1, name = "원유" },
+                { id = "Quartz", count = 10, name = "순수한 석영" },
+                { id = "Sulfur", count = 10, name = "유황" },
+            }
+        },
+        {
+            maxRoll = 100,
+            grade = "일반 (70%)",
+            items = {
+                { id = "Ruby", count = 1, name = "루비" },
+                { id = "Arrow", count = 10, name = "화살" },
+                { id = "Arrow_Poison", count = 10, name = "독화살" },
+                { id = "Arrow_Fire", count = 10, name = "불화살" },
+                { id = "FishingBait_1", count = 10, name = "소박한 낚시 미끼" },
+                { id = "Baked_Berries", count = 10, name = "구운 열매" },
+                { id = "Herbs", count = 1, name = "하급 의약품" },
+                { id = "Potion_Low", count = 1, name = "저급 회복약" },
+                { id = "Leather", count = 1, name = "가죽" },
+                { id = "Horn", count = 1, name = "뿔" },
+                { id = "Bone", count = 1, name = "뼈" },
+                { id = "CaveMushroom", count = 1, name = "동굴 버섯" },
+                { id = "Poppy", count = 1, name = "예쁜 꽃" },
+                { id = "Gunpowder2", count = 1, name = "화약" },
+            }
+        },
+    },
+}
+
+function selectDonationConsumable(bundleName)
+    local bundle = BundleCatalog[bundleName]
+    if type(bundle) ~= "table" then
+        return nil, nil, "알 수 없는 후원 번들입니다: " .. tostring(bundleName)
+    end
+
+    local roll = math.random(1, 100)
+    for _, tier in ipairs(bundle) do
+        if roll <= tier.maxRoll then
+            local item = tier.items[math.random(1, #tier.items)]
+            return item, tier.grade, nil
+        end
+    end
+    return nil, nil, "후원 아이템을 선택하지 못했습니다."
+end
+
 PalEggCatalog = {
     PalEgg = {
         {

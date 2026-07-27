@@ -39,7 +39,7 @@ local function selectRandomOtherPlayer(sourcePlayerUid)
 
     
     local candidates = {}
-    for _, playerController in pairs(PalPlayerControllers:getServerPlayers() or {}) do
+    for _, playerController in pairs(getServerPlayers()) do
         if isValidObject(playerController) then
             local playerState = playerController:GetPalPlayerState()
             local pawn = playerController.AcknowledgedPawn
@@ -106,17 +106,34 @@ return function(context)
     end, debug.traceback)
 
     if calledOk and teleported == false then
+        if noOtherPlayer then
+            local fallbackCalled, fallbackOk, fallbackMessage = xpcall(function()
+                return randomCoordinateTeleport(context)
+            end, debug.traceback)
+            if fallbackCalled and fallbackOk then
+                context.log("다른 플레이어가 없어 랜덤 좌표 텔레포트를 적용했습니다: "
+                    .. tostring(context.playerName))
+                return true, fallbackMessage or "랜덤 좌표로 이동했습니다."
+            end
+
+            local fallbackError = fallbackCalled and fallbackMessage or fallbackOk
+            context.log("다른 플레이어가 없고 랜덤 좌표 텔레포트에도 실패했습니다: "
+                .. tostring(context.playerName) .. " / " .. tostring(fallbackError))
+            return false, tostring(fallbackError)
+        end
+
         local fallbackCalled, fallbackOk, fallbackMessage = xpcall(function()
             return randomCoordinateTeleport(context)
         end, debug.traceback)
 
         if fallbackCalled and fallbackOk then
-            context.log("Random-player teleport fallback used for " .. tostring(context.playerName))
-            return true, fallbackMessage or "Moved to a random coordinate."
+            context.log("랜덤 플레이어 텔레포트 대신 랜덤 좌표 텔레포트를 적용했습니다: "
+                .. tostring(context.playerName))
+            return true, fallbackMessage or "랜덤 좌표로 이동했습니다."
         end
 
         local fallbackError = fallbackCalled and fallbackMessage or fallbackOk
-        context.log("Random-coordinate fallback failed for " .. tostring(context.playerName)
+        context.log("랜덤 좌표 텔레포트 대체 처리에 실패했습니다: " .. tostring(context.playerName)
             .. " / " .. tostring(fallbackError))
         do
             return false, tostring(fallbackError)

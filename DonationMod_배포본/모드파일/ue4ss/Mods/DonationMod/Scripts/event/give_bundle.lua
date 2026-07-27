@@ -7,7 +7,7 @@ local function isValidObject(object)
 end
 
 local function findPlayerInventory(playerName)
-    local players = PalPlayerControllers:getServerPlayers() or {}
+    local players = getServerPlayers()
 
     for _, playerController in pairs(players) do
         if isValidObject(playerController) then
@@ -40,8 +40,9 @@ return function(context)
 
     -- 지연 콜백에 안전한 Lua 값만 전달합니다.
     local playerName = tostring(context.playerName)
-    local itemId = item.id
+    local itemIdentifier = item.id
     local itemName = tostring(item.name or item.id)
+    local itemId = itemName
     local itemCount = item.count
     local itemGrade = tostring(grade or "일반")
     local writeLog = context.log
@@ -60,7 +61,7 @@ return function(context)
                     .. " / " .. itemId .. " x" .. tostring(itemCount))
 
                 -- 현재 서버의 AddItem_ServerInternal 인자 순서입니다.
-                inventory:AddItem_ServerInternal(FName(itemId), itemCount, false, 0.0, false)
+                inventory:AddItem_ServerInternal(FName(itemIdentifier), itemCount, false, 0.0, false)
 
                 sendSystemToPlayer(
                     playerController:GetPlayerUId(),

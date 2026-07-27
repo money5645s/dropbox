@@ -1,0 +1,17 @@
+---@meta
+
+---@class ABP_PalRandomIncidentObjectPlacement_PalNest_SnakeGirl_C : APalRandomIncidentObjectPlacement
+---@field BP_PalMapObjectSpawnerTreasureBox_VisibleContent_WorldTreeDrop3 UChildActorComponent
+---@field BP_PalMapObjectSpawnerTreasureBox_VisibleContent_WorldTreeDrop2 UChildActorComponent
+---@field BP_PalMapObjectSpawnerTreasureBox_VisibleContent_WorldTreeDrop1 UChildActorComponent
+---@field BP_PalMapObjectSpawnerTreasureBox_VisibleContent_WorldTreeDrop UChildActorComponent
+---@field ChildActor UChildActorComponent
+---@field BP_PalRandomIncidentPlacementEggDataComponent2 UBP_PalRandomIncidentPlacementEggDataComponent_C
+---@field BP_PalRandomIncidentPlacementEggDataComponent1 UBP_PalRandomIncidentPlacementEggDataComponent_C
+---@field BP_PalRandomIncidentPlacementEggDataComponent UBP_PalRandomIncidentPlacementEggDataComponent_C
+---@field StaticMesh UStaticMeshComponent
+---@field DefaultSceneRoot USceneComponent
+local ABP_PalRandomIncidentObjectPlacement_PalNest_SnakeGirl_C = {}
+
+
+

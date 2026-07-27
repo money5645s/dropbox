@@ -1,4 +1,5 @@
-require("Pal")
+-- Pal.PalServer is loaded by main.lua. Requiring the generated Pal.lua here
+-- exceeds UE4SS Lua's local-variable limit and prevents DonationMod loading.
 
 -- 후원 큐는 donations.queue 파일 하나만 사용합니다.
 -- 한 줄 형식: 후원ID<TAB>플레이어 UID.A<TAB>후원 금액
@@ -142,6 +143,12 @@ local function processNextDonation()
                 end
 
                 lastQueueWaitMessage = nil
+                --[[
+                local tierLabel = tier.label or (tostring(donation.amount) .. "원")
+                log("후원 큐 처리 완료: " .. donation.id
+                    .. " / " .. playerName
+                    .. " / " .. tierLabel)
+                ]]
                 local tierLabel = tier.label or (tostring(donation.amount) .. "원")
                 log("후원 큐 처리 완료: " .. donation.id
                     .. " / " .. playerName
@@ -167,7 +174,7 @@ function writePlayerStatus()
         return
     end
 
-    local players = PalPlayerControllers:getServerPlayers() or {}
+    local players = getServerPlayers()
     for _, player in pairs(players) do
         local playerState = player:GetPalPlayerState()
         if playerState ~= nil and playerState:IsValid() then

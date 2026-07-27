@@ -1,0 +1,23 @@
+---@meta
+
+---@class UWBP_ItemSearch_Filter_C : UPalUserWidgetOverlayUI
+---@field UberGraphFrame FPointerToUberGraphFrame
+---@field WBP_IngameMenu_Chest_Filter UWBP_IngameMenu_Chest_Filter_C
+---@field CurrentFilterTypes TArray<FName>
+local UWBP_ItemSearch_Filter_C = {}
+
+---@param TypeId FName
+---@param bChecked boolean
+function UWBP_ItemSearch_Filter_C:OnClickedCheck(TypeId, bChecked) end
+---@return UWidget
+function UWBP_ItemSearch_Filter_C:BP_GetDesiredFocusTarget() end
+function UWBP_ItemSearch_Filter_C:Setup() end
+function UWBP_ItemSearch_Filter_C:OnSetup() end
+function UWBP_ItemSearch_Filter_C:BndEvt__WBP_ItemChest_Preference_WBP_IngameMenu_Chest_Filter_K2Node_ComponentBoundEvent_1_OnClickedCloseButton__DelegateSignature() end
+function UWBP_ItemSearch_Filter_C:BndEvt__WBP_ItemChest_Preference_WBP_IngameMenu_Chest_Filter_K2Node_ComponentBoundEvent_0_OnClickedAllCheckButton__DelegateSignature() end
+function UWBP_ItemSearch_Filter_C:BndEvt__WBP_ItemChest_Preference_WBP_IngameMenu_Chest_Filter_K2Node_ComponentBoundEvent_2_OnClickedAllUncheckButton__DelegateSignature() end
+function UWBP_ItemSearch_Filter_C:BndEvt__WBP_ItemSearch_Filter_WBP_IngameMenu_Chest_Filter_K2Node_ComponentBoundEvent_3_OnClickedApplyButton__DelegateSignature() end
+---@param EntryPoint int32
+function UWBP_ItemSearch_Filter_C:ExecuteUbergraph_WBP_ItemSearch_Filter(EntryPoint) end
+
+

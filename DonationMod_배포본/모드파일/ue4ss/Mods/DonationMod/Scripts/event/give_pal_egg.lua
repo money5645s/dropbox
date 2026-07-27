@@ -29,7 +29,7 @@ local function getMatchingPlayerInventory(playerController, playerName)
 end
 
 local function findPlayerInventory(playerName)
-    local players = PalPlayerControllers:getServerPlayers() or {}
+    local players = getServerPlayers()
 
     for _, playerController in pairs(players) do
         local inventory, inventoryErr = getMatchingPlayerInventory(playerController, playerName)

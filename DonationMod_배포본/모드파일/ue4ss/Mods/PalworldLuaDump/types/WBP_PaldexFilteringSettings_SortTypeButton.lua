@@ -1,0 +1,35 @@
+---@meta
+
+---@class UWBP_PaldexFilteringSettings_SortTypeButton_C : UPalUserWidget
+---@field UberGraphFrame FPointerToUberGraphFrame
+---@field Anm_Select UWidgetAnimation
+---@field Anm_Unselect UWidgetAnimation
+---@field Anm_focus UWidgetAnimation
+---@field Base UImage
+---@field Base_Select UImage
+---@field Frame UImage
+---@field Text_SortType UBP_PalTextBlock_C
+---@field WBP_PalInvisibleButton UWBP_PalInvisibleButton_C
+---@field BindSortType EPalUIPaldexSortType
+---@field SortTypeMsgIDMap TMap<EPalUIPaldexSortType, FDataTableRowHandle>
+---@field OnClicked FWBP_PaldexFilteringSettings_SortTypeButton_COnClicked
+local UWBP_PaldexFilteringSettings_SortTypeButton_C = {}
+
+function UWBP_PaldexFilteringSettings_SortTypeButton_C:AnmEvent_Focus() end
+function UWBP_PaldexFilteringSettings_SortTypeButton_C:AnmEvent_Unfocus() end
+function UWBP_PaldexFilteringSettings_SortTypeButton_C:AnmEvent_Select() end
+function UWBP_PaldexFilteringSettings_SortTypeButton_C:AnmEvent_Unselect() end
+---@param IsDesignTime boolean
+function UWBP_PaldexFilteringSettings_SortTypeButton_C:PreConstruct(IsDesignTime) end
+---@param Button UCommonButtonBase
+function UWBP_PaldexFilteringSettings_SortTypeButton_C:BndEvt__WBP_PaldexFilteringSettings_SortTypeButton_WBP_PalInvisibleButton_K2Node_ComponentBoundEvent_0_CommonButtonBaseClicked__DelegateSignature(Button) end
+---@param Button UCommonButtonBase
+function UWBP_PaldexFilteringSettings_SortTypeButton_C:BndEvt__WBP_PaldexFilteringSettings_SortTypeButton_WBP_PalInvisibleButton_K2Node_ComponentBoundEvent_1_CommonButtonBaseClicked__DelegateSignature(Button) end
+---@param Button UCommonButtonBase
+function UWBP_PaldexFilteringSettings_SortTypeButton_C:BndEvt__WBP_PaldexFilteringSettings_SortTypeButton_WBP_PalInvisibleButton_K2Node_ComponentBoundEvent_2_CommonButtonBaseClicked__DelegateSignature(Button) end
+---@param EntryPoint int32
+function UWBP_PaldexFilteringSettings_SortTypeButton_C:ExecuteUbergraph_WBP_PaldexFilteringSettings_SortTypeButton(EntryPoint) end
+---@param Widget UWBP_PaldexFilteringSettings_SortTypeButton_C
+function UWBP_PaldexFilteringSettings_SortTypeButton_C:OnClicked__DelegateSignature(Widget) end
+
+

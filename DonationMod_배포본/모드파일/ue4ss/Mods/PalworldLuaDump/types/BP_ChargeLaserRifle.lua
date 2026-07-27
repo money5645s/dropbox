@@ -1,0 +1,100 @@
+---@meta
+
+---@class ABP_ChargeLaserRifle_C : APalWeaponBase
+---@field UberGraphFrame FPointerToUberGraphFrame
+---@field StaticMesh UStaticMeshComponent
+---@field ChargeEffect UNiagaraComponent
+---@field WeaponMesh USkeletalMeshComponent
+---@field DefaultSceneRoot USceneComponent
+---@field IsPull boolean
+---@field ChargeValue double
+---@field Const_IncrementSpeed double
+---@field Const_DecrementSpeed double
+---@field tempDeltaTime double
+---@field OnChangedChargeValue FBP_ChargeLaserRifle_COnChangedChargeValue
+---@field ReloadSpeedPlayRate double
+local ABP_ChargeLaserRifle_C = {}
+
+---@param ChargeValue double
+function ABP_ChargeLaserRifle_C:GetCurrentChargeValue(ChargeValue) end
+---@return FTransform
+function ABP_ChargeLaserRifle_C:GetLeftHandTransform() end
+---@return boolean
+function ABP_ChargeLaserRifle_C:IsUseLeftHandAttach() end
+function ABP_ChargeLaserRifle_C:OnRestartReload() end
+---@param can boolean
+function ABP_ChargeLaserRifle_C:CanShoot(can) end
+---@param targetPosition FVector
+function ABP_ChargeLaserRifle_C:GetTargetLocation(targetPosition) end
+---@param TF FTransform
+function ABP_ChargeLaserRifle_C:GetMuzzleTransform(TF) end
+function ABP_ChargeLaserRifle_C:ShootBullet() end
+function ABP_ChargeLaserRifle_C:ChangeChargeValue() end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnNotifyEnd_7D3D1A57488DAA75B92021BFFA4E3435(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnNotifyBegin_7D3D1A57488DAA75B92021BFFA4E3435(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnInterrupted_7D3D1A57488DAA75B92021BFFA4E3435(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnBlendOut_7D3D1A57488DAA75B92021BFFA4E3435(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnCompleted_7D3D1A57488DAA75B92021BFFA4E3435(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnNotifyEnd_6868AA2F41E676FCD1C891B7E8A7B79A(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnNotifyBegin_6868AA2F41E676FCD1C891B7E8A7B79A(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnInterrupted_6868AA2F41E676FCD1C891B7E8A7B79A(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnBlendOut_6868AA2F41E676FCD1C891B7E8A7B79A(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnCompleted_6868AA2F41E676FCD1C891B7E8A7B79A(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnNotifyEnd_F04017F8494C2F37C78E51B48EBD2A1C(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnNotifyBegin_F04017F8494C2F37C78E51B48EBD2A1C(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnInterrupted_F04017F8494C2F37C78E51B48EBD2A1C(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnBlendOut_F04017F8494C2F37C78E51B48EBD2A1C(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnCompleted_F04017F8494C2F37C78E51B48EBD2A1C(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnNotifyEnd_B8C41D4B4A5B4B1CCDEF6198D3783FEF(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnNotifyBegin_B8C41D4B4A5B4B1CCDEF6198D3783FEF(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnInterrupted_B8C41D4B4A5B4B1CCDEF6198D3783FEF(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnBlendOut_B8C41D4B4A5B4B1CCDEF6198D3783FEF(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnCompleted_B8C41D4B4A5B4B1CCDEF6198D3783FEF(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnNotifyEnd_1A67CE1042B43EF42A4334AFA2181CEE(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnNotifyBegin_1A67CE1042B43EF42A4334AFA2181CEE(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnInterrupted_1A67CE1042B43EF42A4334AFA2181CEE(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnBlendOut_1A67CE1042B43EF42A4334AFA2181CEE(NotifyName) end
+---@param NotifyName FName
+function ABP_ChargeLaserRifle_C:OnCompleted_1A67CE1042B43EF42A4334AFA2181CEE(NotifyName) end
+function ABP_ChargeLaserRifle_C:ReceiveBeginPlay() end
+---@param DeltaSeconds float
+function ABP_ChargeLaserRifle_C:ReceiveTick(DeltaSeconds) end
+function ABP_ChargeLaserRifle_C:OnPullTrigger() end
+---@param bCanShootOnRelease boolean
+function ABP_ChargeLaserRifle_C:OnReleaseTrigger(bCanShootOnRelease) end
+---@param Type EWeaponNotifyType
+function ABP_ChargeLaserRifle_C:OnWeaponNotify(Type) end
+---@param InReloadSpeedPlayRate float
+function ABP_ChargeLaserRifle_C:OnReloadStart(InReloadSpeedPlayRate) end
+---@param attachActor AActor
+function ABP_ChargeLaserRifle_C:OnAttachWeapon(attachActor) end
+---@param EntryPoint int32
+function ABP_ChargeLaserRifle_C:ExecuteUbergraph_BP_ChargeLaserRifle(EntryPoint) end
+---@param CurretnChargeValue double
+function ABP_ChargeLaserRifle_C:OnChangedChargeValue__DelegateSignature(CurretnChargeValue) end
+
+
