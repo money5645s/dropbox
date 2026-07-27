@@ -3,6 +3,7 @@ local commandActions = {
     czs = "status",
     czu = "unregister",
     cztest = "test",
+    spawn = "spawn",
     chzzkregister = "register",
     chzzkstatus = "status",
     chzzkunregister = "unregister",
@@ -85,6 +86,32 @@ local function handleTest(senderUid, value)
         .. "님에게 " .. tierLabel .. " 이벤트를 실행했습니다.")
 end
 
+local function handleSpawn(senderUid, value)
+    local selector, palName = parseNamedFinalArgument(value)
+    if selector == nil or palName == nil then
+        sendSystemToPlayer(senderUid, "[팰 소환] 사용법: !spawn <플레이어 이름> <팰 이름>")
+        return
+    end
+
+    local targetUid, targetState = resolvePlayer(selector)
+    if targetUid == nil then
+        sendSystemToPlayer(senderUid, "[팰 소환] 대상 플레이어를 찾을 수 없습니다: " .. selector)
+        return
+    end
+
+    local targetName = targetState.PlayerNamePrivate:ToString()
+    local spawned, spawnMessage = spawnWildPal(targetUid, targetName, palName)
+    if not spawned then
+        log("팰 소환 명령 실패: " .. tostring(targetName)
+            .. " / " .. tostring(palName) .. " / " .. tostring(spawnMessage))
+        sendSystemToPlayer(senderUid, "[팰 소환] 실패: " .. tostring(spawnMessage))
+        return
+    end
+
+    sendSystemToPlayer(senderUid, "[팰 소환] " .. targetName
+        .. "에게 " .. palName .. " 야생 팰을 소환했습니다.")
+end
+
 local function handleRemoteRequest(action, senderUid, senderState, value)
     local targetUid = senderUid
     local targetState = senderState
@@ -138,6 +165,8 @@ local function handleChzzkCommand(senderWrapper, chatWrapper)
     local senderUid = sender:GetPlayerUId()
     if action == "test" then
         handleTest(senderUid, value)
+    elseif action == "spawn" then
+        handleSpawn(senderUid, value)
     else
         handleRemoteRequest(action, senderUid, senderState, value)
     end
@@ -155,7 +184,7 @@ local hookOk, hookErr = pcall(function()
 end)
 
 if hookOk then
-    log("CHZZK 채팅 명령 훅을 등록했습니다 (!czr, !czs, !czu, !cztest).")
+    log("CHZZK 채팅 명령 훅을 등록했습니다 (!czr, !czs, !czu, !cztest, !spawn).")
 else
     log("CHZZK 채팅 명령 훅 등록 실패: " .. tostring(hookErr))
 end

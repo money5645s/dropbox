@@ -53,7 +53,24 @@ local function removeFirstQueueLine()
     return true
 end
 
-local function parseDonationLine(line)
+-- 큐 형식:
+--   후원: 후원ID<TAB>플레이어 UID.A<TAB>금액
+--   야생 팰: spawn<TAB>플레이어 UID.A<TAB>팰 이름
+local function parseQueueLine(line)
+    local command, rawSpawnPlayerId, palName = line:match("^(spawn)\t(-?%d+)\t([^\t\r\n]+)%s*$")
+    if command ~= nil then
+        local playerId = tonumber(rawSpawnPlayerId)
+        palName = tostring(palName):match("^%s*(.-)%s*$")
+        if playerId == nil or palName == "" then
+            return nil, "야생 팰 소환 큐 형식이 올바르지 않습니다."
+        end
+        return {
+            kind = "spawn",
+            playerUid = { A = playerId, B = 0, C = 0, D = 0 },
+            palName = palName,
+        }
+    end
+
     local donationId, rawPlayerId, rawAmount = line:match("^([^\t]+)\t(-?%d+)\t(%d+)%s*$")
     local playerId = tonumber(rawPlayerId)
     local amount = tonumber(rawAmount)
@@ -63,6 +80,7 @@ local function parseDonationLine(line)
     end
 
     return {
+        kind = "donation",
         id = donationId,
         playerUid = { A = playerId, B = 0, C = 0, D = 0 },
         amount = amount,
@@ -101,8 +119,8 @@ local function processNextDonation()
         return
     end
 
-    local donation, parseErr = parseDonationLine(line)
-    if donation == nil then
+    local queuedEntry, parseErr = parseQueueLine(line)
+    if queuedEntry == nil then
         discardCurrentDonation("형식이 잘못된 후원 큐 항목을 삭제했습니다: " .. tostring(parseErr))
         return
     end
@@ -111,29 +129,61 @@ local function processNextDonation()
     local scheduledOk, scheduledErr = pcall(function()
         ExecuteInGameThread(function()
             local handledOk, handledErr = xpcall(function()
-                -- 설정에 없는 금액도 큐가 멈추지 않도록 바로 제거합니다.
-                local configuredTier = findDonationTier(donation.amount)
-                if configuredTier == nil then
-                    discardCurrentDonation("설정되지 않은 후원 금액을 삭제했습니다: "
-                        .. donation.id .. " / 금액 " .. tostring(donation.amount))
+                if queuedEntry.kind == "spawn" then
+                    local playerState = findPlayerStateByUid(queuedEntry.playerUid)
+                    if playerState == nil then
+                        logQueueWait("야생 팰 소환 큐 대기: 접속 중인 플레이어를 찾을 수 없습니다(UID.A="
+                            .. tostring(queuedEntry.playerUid.A) .. ")")
+                        return
+                    end
+
+                    local playerName = playerState.PlayerNamePrivate:ToString()
+                    local spawned, spawnMessage = spawnWildPal(
+                        queuedEntry.playerUid,
+                        playerName,
+                        queuedEntry.palName
+                    )
+                    if not spawned then
+                        logQueueWait("야생 팰 소환 큐 대기: " .. playerName
+                            .. " / " .. tostring(queuedEntry.palName)
+                            .. " / " .. tostring(spawnMessage))
+                        return
+                    end
+
+                    local removed, removeErr = removeFirstQueueLine()
+                    if not removed then
+                        error("야생 팰 소환 완료 항목을 큐에서 제거하지 못했습니다: " .. tostring(removeErr))
+                    end
+
+                    lastQueueWaitMessage = nil
+                    log("야생 팰 소환 큐 처리 완료: " .. playerName
+                        .. " / " .. tostring(queuedEntry.palName))
                     return
                 end
 
-                local playerState = findPlayerStateByUid(donation.playerUid)
+                -- 설정에 없는 금액도 큐가 멈추지 않도록 바로 제거합니다.
+                local configuredTier = findDonationTier(queuedEntry.amount)
+                if configuredTier == nil then
+                    discardCurrentDonation("설정되지 않은 후원 금액을 삭제했습니다: "
+                        .. queuedEntry.id .. " / 금액 " .. tostring(queuedEntry.amount))
+                    return
+                end
+
+                local playerState = findPlayerStateByUid(queuedEntry.playerUid)
                 if playerState == nil then
                     logQueueWait("후원 큐 대기: 접속 중인 플레이어를 찾지 못했습니다 (UID.A="
-                        .. tostring(donation.playerUid.A) .. ")")
+                        .. tostring(queuedEntry.playerUid.A) .. ")")
                     return
                 end
 
                 local playerName = playerState.PlayerNamePrivate:ToString()
                 local eventOk, tier, eventMessage = runDonationEvent(
-                    donation.playerUid,
+                    queuedEntry.playerUid,
                     playerName,
-                    donation.amount
+                    queuedEntry.amount
                 )
                 if not eventOk then
-                    logQueueWait("후원 이벤트 대기: " .. donation.id .. " / " .. tostring(eventMessage))
+                    logQueueWait("후원 이벤트 대기: " .. queuedEntry.id .. " / " .. tostring(eventMessage))
                     return
                 end
 
@@ -144,13 +194,13 @@ local function processNextDonation()
 
                 lastQueueWaitMessage = nil
                 --[[
-                local tierLabel = tier.label or (tostring(donation.amount) .. "원")
-                log("후원 큐 처리 완료: " .. donation.id
+                local tierLabel = tier.label or (tostring(queuedEntry.amount) .. "원")
+                log("후원 큐 처리 완료: " .. queuedEntry.id
                     .. " / " .. playerName
                     .. " / " .. tierLabel)
                 ]]
-                local tierLabel = tier.label or (tostring(donation.amount) .. "원")
-                log("후원 큐 처리 완료: " .. donation.id
+                local tierLabel = tier.label or (tostring(queuedEntry.amount) .. "원")
+                log("후원 큐 처리 완료: " .. queuedEntry.id
                     .. " / " .. playerName
                     .. " / " .. tierLabel)
             end, debug.traceback)
@@ -243,7 +293,8 @@ if not queueFileOk then
     log(tostring(queueFileErr))
 end
 
-LoopAsync(250, function()
+-- 1초 주기로 처리해 불필요한 파일·게임 스레드 확인을 줄입니다.
+LoopAsync(1000, function()
     processNextDonation()
 
     local registrationOk, registrationErr = pcall(pollStreamerRegistrationResponses)
@@ -252,7 +303,7 @@ LoopAsync(250, function()
     end
 
     playerStatusPollCount = playerStatusPollCount + 1
-    if playerStatusPollCount >= 20 then
+    if playerStatusPollCount >= 5 then
         playerStatusPollCount = 0
         ExecuteInGameThread(function()
             local statusOk, statusErr = pcall(writePlayerStatus)

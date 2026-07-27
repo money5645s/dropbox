@@ -5,6 +5,7 @@ SplitScreenMod : 0
 LineTraceMod : 0
 BPML_GenericFunctions : 1
 BPModLoaderMod : 1
+TestMod : 1
 DonationMod : 1
 
 

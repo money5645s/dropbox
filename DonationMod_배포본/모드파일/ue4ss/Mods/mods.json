@@ -32,6 +32,10 @@
         "mod_enabled": true
     },
     {
+        "mod_name": "TestMod",
+        "mod_enabled": true
+    },
+    {
         "mod_name": "DonationMod",
         "mod_enabled": true
     }
