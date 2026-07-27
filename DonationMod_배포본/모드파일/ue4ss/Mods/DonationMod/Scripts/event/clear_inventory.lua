@@ -144,9 +144,9 @@ return function(context)
                     writeLog("인벤토리 전체 삭제 확인 실패: " .. playerName .. " / " .. tostring(remainingOrErr))
                     return
                 end
-
+                
                 if remainingOrErr == 0 then
-                    sendSystemToPlayer(playerUid, "[후원] 일반 인벤토리 아이템이 모두 삭제되었습니다")
+                    sendSystemToPlayer(context.GetPlayerID, "[후원] 일반 인벤토리 아이템이 모두 삭제되었습니다")
                     writeLog("인벤토리 전체 삭제 완료: " .. playerName
                         .. " / 제거 요청 스택=" .. tostring(result.requestedSlots))
                     return
