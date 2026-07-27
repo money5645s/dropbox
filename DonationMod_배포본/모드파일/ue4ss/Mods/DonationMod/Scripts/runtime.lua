@@ -98,18 +98,46 @@ function getServerPlayers()
     return players
 end
 
+local function getPlayerUidA(playerUid)
+    if playerUid == nil then
+        return nil
+    end
+
+    -- FGuid는 일반 Lua 테이블 또는 UE4SS userdata로 전달될 수 있습니다.
+    local ok, uidA = pcall(function()
+        return playerUid.A
+    end)
+    if not ok then
+        return nil
+    end
+    return uidA
+end
+
 function findPlayerStateByUid(playerUid)
+    local targetUidA = getPlayerUidA(playerUid)
+    if targetUidA == nil then
+        return nil, nil
+    end
+
     local players = getServerPlayers()
     for _, player in pairs(players) do
         local playerState = player:GetPalPlayerState()
-        if playerState ~= nil and playerState:IsValid() and playerState.PlayerUId.A == playerUid.A then
-            return playerState, player
+        if playerState ~= nil and playerState:IsValid() then
+            local playerUidA = getPlayerUidA(playerState.PlayerUId)
+            if playerUidA ~= nil and playerUidA == targetUidA then
+                return playerState, player
+            end
         end
     end
     return nil, nil
 end
 
 function sendSystemToPlayer(playerUid, message)
+    if getPlayerUidA(playerUid) == nil then
+        log("시스템 채팅 메시지 전송을 건너뜁니다: 플레이어 UID가 없습니다.")
+        return false
+    end
+
     if not ensureGameReferences() then
         log("CHZZK 응답을 보낼 수 없습니다: 게임 월드가 아직 준비되지 않았습니다.")
         return false
