@@ -33,3 +33,6 @@ loadDonationModule("bundle_list")
 loadDonationModule("donation_events")
 loadDonationModule("spawn_pal")
 loadDonationModule("commands")
+-- Starts the listener queue poller (donations.queue) and player-status sync.
+-- Without this module, the listener can write queue entries but nothing reads them.
+loadDonationModule("donation_queue")
