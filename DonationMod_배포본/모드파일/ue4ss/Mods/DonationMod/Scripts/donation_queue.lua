@@ -185,6 +185,20 @@ function writePlayerStatus()
     statusFile:close()
 end
 
+local function formatStreamerRegistrationMessage(status, responseMessage)
+    local normalizedStatus = tostring(status or ""):upper()
+    if normalizedStatus == "REGISTERED" then
+        return "[CHZZK] 라이브 채팅 연결이 완료되었습니다. 이제 후원 이벤트를 받을 수 있습니다."
+    end
+    if normalizedStatus == "UNREGISTERED" then
+        return "[CHZZK] 라이브 채팅 연결이 해제되었습니다."
+    end
+    if normalizedStatus == "ERROR" or normalizedStatus == "FAILED" then
+        return "[CHZZK] 요청 처리에 실패했습니다: " .. tostring(responseMessage or "알 수 없는 오류")
+    end
+    return "[CHZZK] 처리 결과: " .. tostring(responseMessage or "응답 내용이 없습니다.")
+end
+
 function pollStreamerRegistrationResponses()
     local responseFile = io.open(streamerRegistrationResponsePath, "r")
     if responseFile == nil then
@@ -230,7 +244,8 @@ function pollStreamerRegistrationResponses()
         ExecuteInGameThread(function()
             for _, response in ipairs(pendingResponses) do
                 local playerUid = { A = response.playerId, B = 0, C = 0, D = 0 }
-                sendSystemToPlayer(playerUid, "[CHZZK] " .. response.message)
+                sendSystemToPlayer(playerUid,
+                    formatStreamerRegistrationMessage(response.status, response.message))
                 log("CHZZK 응답 (" .. response.status .. ", UID.A="
                     .. tostring(response.playerId) .. "): " .. response.message)
             end

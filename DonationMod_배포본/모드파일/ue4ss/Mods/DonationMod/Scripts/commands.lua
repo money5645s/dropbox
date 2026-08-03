@@ -110,11 +110,17 @@ local function handleRemoteRequest(action, senderUid, senderState, value)
     )
     if requestId == nil then
         log("CHZZK 요청 대기열 추가 실패: " .. tostring(requestErr))
-        sendSystemToPlayer(senderUid, "[CHZZK] 요청을 대기열에 추가하지 못했습니다: " .. tostring(requestErr))
+        sendSystemToPlayer(senderUid, "[CHZZK] 요청을 보내지 못했습니다: " .. tostring(requestErr))
         return
     end
-    sendSystemToPlayer(senderUid, "[CHZZK] " .. (actionLabels[action] or action)
-        .. " 요청을 대기열에 추가했습니다. (" .. requestId .. ")")
+
+    local waitingMessages = {
+        register = "[CHZZK] 라이브 채팅 연결 요청을 보냈습니다. 연결이 완료되면 알려드립니다.",
+        status = "[CHZZK] 라이브 채팅 연결 상태를 확인하고 있습니다. 결과를 곧 알려드립니다.",
+        unregister = "[CHZZK] 라이브 채팅 연결 해제 요청을 보냈습니다. 완료되면 알려드립니다.",
+    }
+    sendSystemToPlayer(senderUid, waitingMessages[action]
+        or "[CHZZK] 요청을 보냈습니다. 처리 결과를 곧 알려드립니다.")
 end
 
 local function handleChzzkCommand(senderWrapper, chatWrapper)
