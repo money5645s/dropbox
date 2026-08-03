@@ -1,62 +1,31 @@
 
 BundleCatalog = {
-    -- 스피어 보따리: 세 보상 중 하나를 균등 확률로 지급합니다.
+    -- 스피어 보따리: 세 보상 중 하나를 34%/33%/33% 확률로 지급합니다.
     -- minCount와 maxCount를 함께 설정하면 그 범위 안에서 수량을 무작위로 정합니다.
 
-    --- 1,000원 음식지급
-    Food = {
-        {
-            maxRoll = 70,
-            grade = "소소한 도움",
-            items = {
-                { id = "JamBun", count = 10, name = "잼 빵" },
-            },
-        },
-        {
-            maxRoll = 90,
-            grade = "소소한 도움",
-            items = {
-                { id = "Salad", count = 10, name = "샐러드" },
-            },
-        },
-        {
-            maxRoll = 95,
-            grade = "소소한 도움",
-            items = {
-                { id = "MeatAndPotatoes", count = 2, name = "질풍수리 감자조림" },
-            },
-        },
-        {
-            maxRoll = 100,
-            grade = "소소한 도움",
-            items = {
-                { id = "Curry", count = 2, name = "그린모스 카레" },
-            },
-        }
+    -- 스피어 보따리
+    Sphere = {
+        { maxRoll = 34, grade = "스피어류 (34%)", items = { { id = "PalSphere_Master", minCount = 6, maxCount = 10, name = "울트라 스피어" } } },
+        { maxRoll = 67, grade = "스피어류 (33%)", items = { { id = "PalSphere_Legend", minCount = 3, maxCount = 6, name = "전설 스피어" } } },
+        { maxRoll = 100, grade = "스피어류 (33%)", items = { { id = "PalSphere_Exotic", minCount = 1, maxCount = 2, name = "인피니티 스피어" } } },
     },
 
-    -- 3,000원 아이템 지급
+    -- 도움 보따리
     Default = {
-        { maxRoll = 7, grade = "스피어류 (33%)", items = { { id = "PalSphere_Tera", count = 5, name = "테라 스피어" } } },
-        { maxRoll = 14, grade = "스피어류 (33%)", items = { { id = "PalSphere_Master", count = 3, name = "울트라 스피어" } } },
-        { maxRoll = 21, grade = "스피어류 (33%)", items = { { id = "PalSphere_Legend", count = 3, name = "전설 스피어" } } },
-        { maxRoll = 28, grade = "스피어류 (33%)", items = { { id = "PalSphere_Ultimate", count = 3, name = "얼티밋 스피어" } } },
-        { maxRoll = 33, grade = "스피어류 (33%)", items = { { id = "PalSphere_Exotic", count = 3, name = "인피니티 스피어" } } },
-
-        { maxRoll = 40, grade = "재료류 (32%)", items = { { id = "Processed_Wood", count = 30, name = "나무 판자" } } },
-        { maxRoll = 47, grade = "재료류 (32%)", items = { { id = "Leather", count = 20, name = "가죽" } } },
-        { maxRoll = 53, grade = "재료류 (32%)", items = { { id = "Wood_Fine", count = 30, name = "단단한 목재" } } },
-        { maxRoll = 59, grade = "재료류 (32%)", items = { { id = "Cloth", count = 20, name = "천" } } },
-        { maxRoll = 65, grade = "재료류 (32%)", items = { { id = "Cloth2", count = 20, name = "상급 천" } } },
-
-        { maxRoll = 72, grade = "주괴류 (35%)", items = { { id = "IronIngot", count = 30, name = "제련 주괴" } } },
-        { maxRoll = 79, grade = "주괴류 (35%)", items = { { id = "StealIngot", count = 20, name = "팰 금속 주괴" } } },
-        { maxRoll = 85, grade = "주괴류 (35%)", items = { { id = "Plastic", count = 20, name = "플라스틸" } } },
-        { maxRoll = 91, grade = "주괴류 (35%)", items = { { id = "ManganeseIngot", count = 10, name = "코랄리움 주괴" } } },
-        { maxRoll = 95, grade = "주괴류 (35%)", items = { { id = "StainlessSteel", count = 10, name = "헥소라이트" } } },
-        { maxRoll = 98, grade = "주괴류 (35%)", items = { { id = "SkyislandIngot", count = 5, name = "솔라이트 주괴" } } },
-        { maxRoll = 100, grade = "주괴류 (35%)", items = { { id = "AncientParts2", count = 1, name = "고대 문명의 코어" } } },
-    }
+        { maxRoll = 8, grade = "도움 보따리 (8%)", items = { { id = "Money", count = 75000, name = "골드" } } },
+        { maxRoll = 16, grade = "도움 보따리 (8%)", items = { { id = "TechnologyBook_G1", minCount = 1, maxCount = 2, name = "고도의 기술서" } } },
+        { maxRoll = 24, grade = "도움 보따리 (8%)", items = { { id = "TechnologyBook_G2", count = 1, name = "혁신적인 기술서" } } },
+        { maxRoll = 32, grade = "도움 보따리 (8%)", items = { { id = "AncientTechnologyBook_G1", count = 1, name = "고대의 기술서" } } },
+        { maxRoll = 40, grade = "도움 보따리 (8%)", items = { { id = "Fruit_hp_01", count = 1, name = "생명의 열매" } } },
+        { maxRoll = 48, grade = "도움 보따리 (8%)", items = { { id = "Fruit_attack_01", count = 1, name = "괴력의 열매" } } },
+        { maxRoll = 56, grade = "도움 보따리 (8%)", items = { { id = "Fruit__defense_01", count = 1, name = "견고의 열매" } } },
+        { maxRoll = 64, grade = "도움 보따리 (8%)", items = { { id = "PalCrystal_Ex", minCount = 2, maxCount = 4, name = "고대 문명의 부품" } } },
+        { maxRoll = 72, grade = "도움 보따리 (8%)", items = { { id = "Elixir_hp_02", count = 2, name = "명맥의 비약" } } },
+        { maxRoll = 79, grade = "도움 보따리 (7%)", items = { { id = "Elixir_stamina_02", count = 2, name = "활력의 비약" } } },
+        { maxRoll = 86, grade = "도움 보따리 (7%)", items = { { id = "Elixir_weight_02", count = 2, name = "거인의 비약" } } },
+        { maxRoll = 93, grade = "도움 보따리 (7%)", items = { { id = "Elixir_workspeed_02", count = 2, name = "근로의 비약" } } },
+        { maxRoll = 100, grade = "도움 보따리 (7%)", items = { { id = "Elixir_attack_02", count = 2, name = "맹격의 비약" } } },
+    },
 }
 
 function selectDonationConsumable(bundleName)

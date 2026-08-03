@@ -99,6 +99,39 @@ local function setEquippedWeaponDurabilityZero(playerUid)
     return true, nil
 end
 
+local function superJump(playerUid)
+    local pawn, _, targetErr = getTarget(playerUid)
+    if pawn == nil then
+        return false, targetErr
+    end
+
+    -- 충분한 높이로 발사해 게임의 일반 낙하 피해가 적용되도록 합니다.
+    pawn:LaunchCharacter({ X = 0.0, Y = 0.0, Z = 7000.0 }, false, true)
+    return true, nil
+end
+
+local function halveCurrentHealth(playerUid)
+    local pawn, _, targetErr = getTarget(playerUid)
+    if pawn == nil then
+        return false, targetErr
+    end
+
+    local parameterComponent = pawn.CharacterParameterComponent
+    if not isValidObject(parameterComponent) then
+        return false, "대상 플레이어의 체력 컴포넌트를 찾지 못했습니다."
+    end
+
+    local currentHP = parameterComponent:GetHP()
+    local currentValue = currentHP and tonumber(currentHP.Value) or nil
+    if currentValue == nil or currentValue <= 0 then
+        return false, "대상 플레이어의 현재 체력을 읽지 못했습니다."
+    end
+
+    currentHP.Value = math.max(1, math.floor(currentValue * 0.5))
+    parameterComponent:SetHP(currentHP)
+    return true, nil
+end
+
 local function killPlayer(playerUid)
     local pawn, _, targetErr = getTarget(playerUid)
     if pawn == nil then
@@ -190,14 +223,10 @@ end
 
 return function(context)
     local effects = {
-        { maxRoll = 14, message = "[후원] 랜덤 방해: 화상!", statusId = 19 },
-        { maxRoll = 24, message = "[후원] 랜덤 방해: 빙결!", statusId = 21 },
-        { maxRoll = 39, message = "[후원] 랜덤 방해: 감전!", statusId = 22 },
-        { maxRoll = 54, message = "[후원] 랜덤 방해: 나무 2천개!", itemId = "Wood", count = 500, repetitions = 4 },
-        { maxRoll = 69, message = "[후원] 랜덤 방해: 돌 2천개!", itemId = "Stone", count = 500, repetitions = 4 },
-        { maxRoll = 84, message = "[후원] 랜덤 방해: 배고픔 0!", action = "hunger_zero" },
-        { maxRoll = 85, message = "[후원] 랜덤 방해: 즉시 사망!", action = "instant_kill" },
-        { maxRoll = 100, message = "[후원] 랜덤 방해: 랜덤 팰 기절!", action = "random_party_pal_stun" },
+        { maxRoll = 25, message = "[후원] 랜덤 방해: 슈퍼점프!", action = "super_jump" },
+        { maxRoll = 44, message = "[후원] 랜덤 방해: 현재 체력 50% 감소!", action = "half_current_health" },
+        { maxRoll = 99, message = "[후원] 랜덤 방해: 가방 쓰레기 채우기!", itemId = "Stone", count = 9999, repetitions = 20 },
+        { maxRoll = 100, message = "[후원] 랜덤 방해: 즉시 사망!", action = "instant_kill" },
     }
 
     local roll = math.random(1, 100)
@@ -222,6 +251,10 @@ return function(context)
         applied, applyErr = addStatus(context.playerUid, effect.statusId)
     elseif effect.itemId ~= nil then
         applied, applyErr = addInventoryItem(context.playerUid, effect.itemId, effect.count, effect.repetitions)
+    elseif effect.action == "super_jump" then
+        applied, applyErr = superJump(context.playerUid)
+    elseif effect.action == "half_current_health" then
+        applied, applyErr = halveCurrentHealth(context.playerUid)
     elseif effect.action == "hunger_zero" then
         applied, applyErr = setHungerZero(context.playerUid)
     elseif effect.action == "weapon_durability_zero" then

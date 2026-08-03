@@ -39,15 +39,17 @@ return function(context)
         if item == nil then
             return false, selectErr
         end
-        if type(item.id) ~= "string" or item.id == ""
-            or type(item.count) ~= "number" or item.count < 1
-            or item.count ~= math.floor(item.count) then
+        if type(item.id) ~= "string" or item.id == "" then
             return false, "보상 아이템 설정이 올바르지 않습니다."
+        end
+        local count, countErr = selectDonationItemCount(item)
+        if count == nil then
+            return false, countErr
         end
         rewards[index] = {
             id = item.id,
             name = tostring(item.name or item.id),
-            count = item.count,
+            count = count,
             grade = tostring(grade or "일반"),
         }
     end
