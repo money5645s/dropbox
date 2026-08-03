@@ -223,9 +223,9 @@ end
 
 return function(context)
     local effects = {
-        { maxRoll = 25, message = "[후원] 랜덤 방해: 슈퍼점프!", action = "super_jump" },
-        { maxRoll = 44, message = "[후원] 랜덤 방해: 현재 체력 50% 감소!", action = "half_current_health" },
-        { maxRoll = 99, message = "[후원] 랜덤 방해: 가방 쓰레기 채우기!", itemId = "Stone", count = 9999, repetitions = 20 },
+        { maxRoll = 33, message = "[후원] 랜덤 방해: 슈퍼점프!", action = "super_jump" },
+        { maxRoll = 66, message = "[후원] 랜덤 방해: 현재 체력 50% 감소!", action = "half_current_health" },
+        { maxRoll = 99, message = "[후원] 랜덤 방해: 가방 쓰레기 채우기!", itemId = "Stone", count = 500, repetitions = 4 },
         { maxRoll = 100, message = "[후원] 랜덤 방해: 즉시 사망!", action = "instant_kill" },
     }
 

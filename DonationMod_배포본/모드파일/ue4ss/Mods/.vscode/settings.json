@@ -1,7 +1,0 @@
-{
-    "Lua.workspace.ignoreDir": [
-        "PalworldLuaDump"
-    ],
-    "Lua.workspace.preloadFileSize": 5000,
-    "Lua.workspace.maxPreload": 50000,
-}
