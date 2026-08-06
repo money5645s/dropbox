@@ -1,102 +1,24 @@
+local STATUS_BURN = 19
+local STATUS_FREEZE = 21
+local STATUS_ELECTRICAL = 22
+local STATUS_DARKNESS = 25
+
 local function isValidObject(object)
     return object ~= nil and object:IsValid()
 end
 
 local function getTarget(playerUid)
     local playerState, playerController = findPlayerStateByUid(playerUid)
-    if not isValidObject(playerController) then
-        return nil, nil, "대상 플레이어 컨트롤러를 찾지 못했습니다."
+    if not isValidObject(playerState) or not isValidObject(playerController) then
+        return nil, nil, "대상 플레이어를 찾지 못했습니다."
     end
 
     local pawn = playerController:K2_GetPawn()
     if not isValidObject(pawn) then
         return nil, nil, "대상 플레이어 캐릭터를 찾지 못했습니다."
     end
+
     return pawn, playerController, nil
-end
-
-local function addStatus(playerUid, statusId)
-    local pawn, _, targetErr = getTarget(playerUid)
-    if pawn == nil then
-        return false, targetErr
-    end
-
-    local status = pawn.StatusComponent
-    if not isValidObject(status) then
-        return false, "대상 플레이어의 상태 컴포넌트를 찾지 못했습니다."
-    end
-
-    status:AddStatus(statusId)
-    return true, nil
-end
-
-local function addInventoryItem(playerUid, itemId, count, repetitions)
-    local _, playerController, targetErr = getTarget(playerUid)
-    if playerController == nil then
-        return false, targetErr
-    end
-
-    local playerState = playerController:GetPalPlayerState()
-    if not isValidObject(playerState) then
-        return false, "대상 플레이어 상태를 찾지 못했습니다."
-    end
-
-    local inventory = playerState:GetInventoryData()
-    if not isValidObject(inventory) then
-        return false, "대상 플레이어 인벤토리를 찾지 못했습니다."
-    end
-
-    local times = tonumber(repetitions) or 1
-    for _ = 1, times do
-        inventory:AddItem_ServerInternal(FName(itemId), count, false, 0.0, false)
-    end
-    return true, nil
-end
-
-local function setHungerZero(playerUid)
-    local pawn, _, targetErr = getTarget(playerUid)
-    if pawn == nil then
-        return false, targetErr
-    end
-
-    local characterParameter = pawn.CharacterParameterComponent
-    if not isValidObject(characterParameter) then
-        return false, "대상 플레이어의 캐릭터 정보가 없습니다."
-    end
-
-    local individualParameter = characterParameter:GetIndividualParameter()
-    if not isValidObject(individualParameter) then
-        return false, "대상 플레이어의 개별 캐릭터 정보를 찾지 못했습니다."
-    end
-
-    individualParameter:SetFullStomach(0.0)
-    return true, nil
-end
-
-local function setEquippedWeaponDurabilityZero(playerUid)
-    local pawn, _, targetErr = getTarget(playerUid)
-    if pawn == nil then
-        return false, targetErr
-    end
-
-    local shooter = pawn.ShooterComponent
-    if not isValidObject(shooter) then
-        return false, "대상 플레이어의 무기 정보를 찾지 못했습니다."
-    end
-
-    -- GetHasWeapon은 현재 손에 든 무기 액터를 반환합니다.
-    local weapon = shooter:GetHasWeapon()
-    if not isValidObject(weapon) then
-        return false, "현재 장착한 무기를 찾지 못했습니다."
-    end
-
-    local dynamicWeapon = weapon:TryGetDynamicWeaponData()
-    if not isValidObject(dynamicWeapon) then
-        return false, "현재 장착한 무기의 내구도 정보를 찾지 못했습니다."
-    end
-
-    dynamicWeapon:SetDurabilityInternal(0.0)
-    return true, nil
 end
 
 local function superJump(playerUid)
@@ -105,7 +27,7 @@ local function superJump(playerUid)
         return false, targetErr
     end
 
-    -- 충분한 높이로 발사해 게임의 일반 낙하 피해가 적용되도록 합니다.
+    -- 일반 낙하 피해가 적용될 만큼 위로 발사합니다.
     pawn:LaunchCharacter({ X = 0.0, Y = 0.0, Z = 7000.0 }, false, true)
     return true, nil
 end
@@ -132,43 +54,62 @@ local function halveCurrentHealth(playerUid)
     return true, nil
 end
 
-local function killPlayer(playerUid)
+local function addStatus(playerUid, statusId)
     local pawn, _, targetErr = getTarget(playerUid)
     if pawn == nil then
         return false, targetErr
     end
 
-    local damageReaction = pawn.DamageReactionComponent
-    if not isValidObject(damageReaction) then
-        return false, "대상 플레이어의 피해 컴포넌트를 찾지 못했습니다."
+    local statusComponent = pawn.StatusComponent
+    if not isValidObject(statusComponent) then
+        return false, "대상 플레이어의 상태 컴포넌트를 찾지 못했습니다."
     end
 
-    damageReaction:SlipDamage(1000000, true, 1, true)
-
-    -- 일부 상태에서는 첫 피해만으로 사망 전환이 끝나지 않아 한 번 더 확인합니다.
-    local scheduledOk, scheduledErr = pcall(function()
-        ExecuteInGameThreadWithDelay(200, function()
-            local currentPawn = getTarget(playerUid)
-            if not isValidObject(currentPawn) then
-                return
-            end
-            local currentDamageReaction = currentPawn.DamageReactionComponent
-            if isValidObject(currentDamageReaction) then
-                currentDamageReaction:SlipDamage(1000000, true, 1, true)
-            end
-        end)
-    end)
-    if not scheduledOk then
-        return false, "즉시 사망 확인 피해 예약에 실패했습니다: " .. tostring(scheduledErr)
-    end
-
+    statusComponent:AddStatus(statusId)
     return true, nil
 end
 
-local function stunRandomPartyPal(playerUid)
-    local playerState = findPlayerStateByUid(playerUid)
-    if not isValidObject(playerState) then
-        return false, "대상 플레이어 상태를 찾지 못했습니다."
+local function fillBagWithTrash(playerUid)
+    local _, playerController, targetErr = getTarget(playerUid)
+    if playerController == nil then
+        return false, targetErr
+    end
+
+    local playerState = playerController:GetPalPlayerState()
+    local inventory = isValidObject(playerState) and playerState:GetInventoryData() or nil
+    if not isValidObject(inventory) then
+        return false, "대상 플레이어 인벤토리를 찾지 못했습니다."
+    end
+
+    -- 돌 최대 스택 20개를 지급해 인벤토리 공간을 방해합니다.
+    for _ = 1, 20 do
+        inventory:AddItem_ServerInternal(FName("Stone"), 1000, false, 0.0, false)
+    end
+    return true, nil
+end
+
+local function getPartyHolder(playerController)
+    local directHolder = playerController.BP_OtomoPalHolderComponent
+    if isValidObject(directHolder) then
+        return directHolder
+    end
+
+    local pawn = playerController.Pawn
+    if not isValidObject(pawn) then
+        return nil, "대상 플레이어 Pawn을 찾지 못했습니다."
+    end
+
+    local holder = PalUtility:GetOtomoHolderComponent(pawn)
+    if not isValidObject(holder) then
+        return nil, "플레이어 팰 보관 컴포넌트를 찾지 못했습니다."
+    end
+    return holder
+end
+
+local function deleteRandomPartyPal(playerUid)
+    local playerState, playerController = findPlayerStateByUid(playerUid)
+    if not isValidObject(playerState) or not isValidObject(playerController) then
+        return false, "대상 플레이어를 찾지 못했습니다."
     end
     if not ensureGameReferences() then
         return false, "게임 월드를 찾지 못했습니다."
@@ -176,57 +117,103 @@ local function stunRandomPartyPal(playerUid)
 
     local otomoData = playerState:GetPalPlayerOtomoData()
     if not isValidObject(otomoData) or otomoData.OtomoCharacterContainerId == nil then
-        return false, "플레이어 팰 인벤토리 정보를 찾지 못했습니다."
+        return false, "플레이어 파티 정보를 찾지 못했습니다."
     end
 
     local manager = PalUtility:GetCharacterContainerManager(World)
-    if not isValidObject(manager) then
-        return false, "팰 인벤토리 관리자를 찾지 못했습니다."
+    local container = isValidObject(manager) and manager:GetContainer(otomoData.OtomoCharacterContainerId) or nil
+    if not isValidObject(container) then
+        return false, "플레이어 파티 컨테이너를 찾지 못했습니다."
     end
 
-    local container = manager:GetContainer(otomoData.OtomoCharacterContainerId)
+    local candidates = {}
+    for index = 0, math.min(5, container:Num()) - 1 do
+        local slot = container:Get(index)
+        if isValidObject(slot) and not slot:IsEmpty() then
+            table.insert(candidates, slot)
+        end
+    end
+    if #candidates == 0 then
+        return false, "파티에 삭제할 펠이 없습니다."
+    end
+
+    local holder, holderErr = getPartyHolder(playerController)
+    if not isValidObject(holder) then
+        return false, holderErr
+    end
+
+    holder:Tmp_EmptySlot(candidates[math.random(1, #candidates)]:GetSlotId())
+    return true, nil
+end
+
+local function makeRequestId(sequence)
+    return {
+        A = sequence,
+        B = math.random(-2147483648, 2147483647),
+        C = math.random(-2147483648, 2147483647),
+        D = math.random(-2147483648, 2147483647),
+    }
+end
+
+local function deleteRandomInventoryItem(playerUid)
+    local playerState, playerController = findPlayerStateByUid(playerUid)
+    if not isValidObject(playerState) or not isValidObject(playerController) then
+        return false, "대상 플레이어를 찾지 못했습니다."
+    end
+    if not ensureGameReferences() then
+        return false, "게임 월드를 찾지 못했습니다."
+    end
+
+    local inventory = playerState:GetInventoryData()
+    local inventoryInfo = isValidObject(inventory) and inventory.MyInventoryInfo or nil
+    if inventoryInfo == nil or inventoryInfo.CommonContainerId == nil then
+        return false, "일반 인벤토리 정보를 찾지 못했습니다."
+    end
+
+    local containerManager = PalUtility:GetItemContainerManager(World)
+    local container = isValidObject(containerManager) and containerManager:GetContainer(inventoryInfo.CommonContainerId) or nil
     if not isValidObject(container) then
-        return false, "플레이어 팰 인벤토리를 찾지 못했습니다."
+        return false, "일반 인벤토리 컨테이너를 찾지 못했습니다."
     end
 
     local candidates = {}
     for index = 0, container:Num() - 1 do
         local slot = container:Get(index)
-        if isValidObject(slot) and not slot:IsEmpty() then
-            local handle = slot:GetHandle()
-            local parameter = isValidObject(handle) and handle:TryGetIndividualParameter() or nil
-            if isValidObject(parameter) then
-                local physicalHealth = tonumber(parameter:GetPhysicalHealth()) or 0
-                local currentHP = parameter:GetHP()
-                local hpValue = currentHP and tonumber(currentHP.Value) or 0
-                local palActor = handle:TryGetIndividualActor()
-                local damageReaction = isValidObject(palActor) and palActor.DamageReactionComponent or nil
-                -- HP가 0 이하이거나 Dying(3)/DeadBody(4) 이상이면 이미 기절한 팰입니다.
-                if hpValue > 0 and physicalHealth < 3 and isValidObject(damageReaction) then
-                    table.insert(candidates, {
-                        damageReaction = damageReaction,
-                    })
-                end
-            end
+        if isValidObject(slot) and not slot:IsEmpty() and slot:GetStackCount() > 0 then
+            -- 이 슬롯 객체에는 GetSlotIndex 메서드가 없으므로 순회 인덱스를 함께 보관합니다.
+            table.insert(candidates, { slot = slot, index = index })
         end
     end
     if #candidates == 0 then
-        return false, "기절 가능한 출전 팰을 찾지 못했습니다. 팰을 한 마리 꺼낸 뒤 다시 시도해 주세요."
+        return false, "삭제할 일반 인벤토리 아이템이 없습니다."
     end
 
-    -- 게임의 실제 피해 처리로 HP 0과 전투불능 상태를 함께 적용합니다.
-    local selected = candidates[math.random(1, #candidates)]
-    selected.damageReaction:SlipDamage(1000000, true, 1, true)
+    local pawn = playerController.Pawn
+    local transmitter = isValidObject(pawn) and PalUtility:GetNetworkTransmitterByPlayerCharacter(pawn) or nil
+    local itemComponent = isValidObject(transmitter) and transmitter:GetItem() or nil
+    if not isValidObject(itemComponent) then
+        return false, "플레이어 인벤토리 네트워크 컴포넌트를 찾지 못했습니다."
+    end
 
+    local selected = candidates[math.random(1, #candidates)]
+    itemComponent:RequestDispose_ToServer(makeRequestId(selected.index + 1), {
+        SlotId = selected.slot:GetSlotId(),
+        Num = selected.slot:GetStackCount(),
+    })
     return true, nil
 end
 
 return function(context)
     local effects = {
-        { maxRoll = 33, message = "[후원] 랜덤 방해: 슈퍼점프!", action = "super_jump" },
-        { maxRoll = 66, message = "[후원] 랜덤 방해: 현재 체력 50% 감소!", action = "half_current_health" },
-        { maxRoll = 99, message = "[후원] 랜덤 방해: 가방 쓰레기 채우기!", itemId = "Stone", count = 500, repetitions = 4 },
-        { maxRoll = 100, message = "[후원] 랜덤 방해: 즉시 사망!", action = "instant_kill" },
+        { maxRoll = 13, message = "[후원] 랜덤 방해: 슈퍼점프 (13%)", action = "super_jump" },
+        { maxRoll = 18, message = "[후원] 랜덤 방해: 피 절반 닳기 (5%)", action = "half_current_health" },
+        { maxRoll = 34, message = "[후원] 랜덤 방해: 가방 쓰레기 채우기 (16%)", action = "fill_bag" },
+        { maxRoll = 50, message = "[후원] 랜덤 방해: 거기누구없어요? (16%)", statusId = STATUS_DARKNESS },
+        { maxRoll = 66, message = "[후원] 랜덤 방해: 찌릿찌릿 (16%)", statusId = STATUS_ELECTRICAL },
+        { maxRoll = 82, message = "[후원] 랜덤 방해: 냉방병 (16%)", statusId = STATUS_FREEZE },
+        { maxRoll = 98, message = "[후원] 랜덤 방해: 아뜨거워 (16%)", statusId = STATUS_BURN },
+        { maxRoll = 99, message = "[후원] 랜덤 방해: 랜덤 팰 삭제 (1%)", action = "delete_random_pal" },
+        { maxRoll = 100, message = "[후원] 랜덤 방해: 랜덤 아이템 삭제 (1%)", action = "delete_random_item" },
     }
 
     local roll = math.random(1, 100)
@@ -237,47 +224,48 @@ return function(context)
             break
         end
     end
-
     if effect == nil then
-        local noEffectMessage = "[후원] 랜덤 방해: 아무 일도 일어나지 않았습니다."
-        context.sendSystemToPlayer(context.playerUid, noEffectMessage)
-        context.log("랜덤 방해 이벤트 완료: " .. tostring(context.playerName)
-            .. " / " .. noEffectMessage)
-        return true, noEffectMessage
+        return false, "랜덤 디버프 효과를 선택하지 못했습니다."
     end
 
-    local applied, applyErr
-    if effect.statusId ~= nil then
-        applied, applyErr = addStatus(context.playerUid, effect.statusId)
-    elseif effect.itemId ~= nil then
-        applied, applyErr = addInventoryItem(context.playerUid, effect.itemId, effect.count, effect.repetitions)
-    elseif effect.action == "super_jump" then
-        applied, applyErr = superJump(context.playerUid)
-    elseif effect.action == "half_current_health" then
-        applied, applyErr = halveCurrentHealth(context.playerUid)
-    elseif effect.action == "hunger_zero" then
-        applied, applyErr = setHungerZero(context.playerUid)
-    elseif effect.action == "weapon_durability_zero" then
-        applied, applyErr = setEquippedWeaponDurabilityZero(context.playerUid)
-    elseif effect.action == "instant_kill" then
-        applied, applyErr = killPlayer(context.playerUid)
-    elseif effect.action == "random_party_pal_stun" then
-        applied, applyErr = stunRandomPartyPal(context.playerUid)
-    else
-        applied, applyErr = false, "알 수 없는 랜덤 디버프 효과입니다."
+    -- 게임 객체 접근은 게임 스레드에서만 수행합니다.
+    local playerUid = context.playerUid
+    local playerName = tostring(context.playerName)
+    local writeLog = context.log
+    local sendSystemToPlayer = context.sendSystemToPlayer
+    local scheduledOk, scheduledErr = pcall(function()
+        ExecuteInGameThreadWithDelay(100, function()
+            local ranOk, applied, applyErr = xpcall(function()
+                if effect.statusId ~= nil then
+                    return addStatus(playerUid, effect.statusId)
+                elseif effect.action == "super_jump" then
+                    return superJump(playerUid)
+                elseif effect.action == "half_current_health" then
+                    return halveCurrentHealth(playerUid)
+                elseif effect.action == "fill_bag" then
+                    return fillBagWithTrash(playerUid)
+                elseif effect.action == "delete_random_pal" then
+                    return deleteRandomPartyPal(playerUid)
+                elseif effect.action == "delete_random_item" then
+                    return deleteRandomInventoryItem(playerUid)
+                end
+                return false, "알 수 없는 랜덤 디버프 효과입니다."
+            end, debug.traceback)
+
+            if not ranOk or not applied then
+                local errorMessage = ranOk and applyErr or applied
+                writeLog("랜덤 디버프 적용 실패: " .. playerName .. " / " .. tostring(errorMessage))
+                return
+            end
+
+            sendSystemToPlayer(playerUid, effect.message)
+            writeLog("랜덤 디버프 적용 완료: " .. playerName .. " / " .. effect.message)
+        end)
+    end)
+
+    if not scheduledOk then
+        return false, "랜덤 디버프를 예약하지 못했습니다: " .. tostring(scheduledErr)
     end
 
-    if not applied then
-        context.log(tostring(context.playerName)
-            .. " / " .. tostring(applyErr))
-        return false, applyErr
-    end
-
-    local notified = context.sendSystemToPlayer(context.playerUid, effect.message)
-    if not notified then
-        context.log("랜덤 디버프 안내 채팅 전송 실패: " .. tostring(context.playerName))
-    end
-    context.log("랜덤 디버프 이벤트 완료: " .. tostring(context.playerName)
-        .. " / " .. effect.message)
-    return true, effect.message
+    return true, "랜덤 디버프를 예약했습니다."
 end

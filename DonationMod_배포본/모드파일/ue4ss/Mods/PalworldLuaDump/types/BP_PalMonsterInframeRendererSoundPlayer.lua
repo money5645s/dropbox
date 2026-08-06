@@ -1,9 +1,0 @@
----@meta
-
----@class ABP_PalMonsterInframeRendererSoundPlayer_C : AActor
----@field PalSoundPlayer UPalSoundPlayerComponent
----@field DefaultSceneRoot USceneComponent
-local ABP_PalMonsterInframeRendererSoundPlayer_C = {}
-
-
-

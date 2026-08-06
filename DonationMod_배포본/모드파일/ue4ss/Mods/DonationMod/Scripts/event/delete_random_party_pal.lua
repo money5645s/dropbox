@@ -79,7 +79,7 @@ local function chooseOccupiedPartySlot(container)
     for index = 0, partySlotCount - 1 do
         local slot = container:Get(index)
         if isValidObject(slot) and not slot:IsEmpty() then
-            table.insert(candidates, slot)
+            table.insert(candidates, { slot = slot, index = index })
         end
     end
 
@@ -106,13 +106,13 @@ local function deleteRandomPartyPal(playerUid)
         return false, componentErr
     end
 
-    local slot, occupiedCount, scannedSlotCount = chooseOccupiedPartySlot(container)
-    if not isValidObject(slot) then
+    local selected, occupiedCount, scannedSlotCount = chooseOccupiedPartySlot(container)
+    if selected == nil or not isValidObject(selected.slot) then
         return false, occupiedCount
     end
 
-    local slotId = slot:GetSlotId()
-    local slotIndex = slot:GetSlotIndex()
+    local slotId = selected.slot:GetSlotId()
+    local slotIndex = selected.index
 
     component:Tmp_EmptySlot(slotId)
 
@@ -157,7 +157,7 @@ return function(context)
                     if isValidObject(currentController) then
                         local sent = sendSystemToPlayer(
                             currentController:GetPlayerUId(),
-                            "지금까지 고마웠어! 언젠가 더 강해진 모습으로 다시 만나자!"
+                            "[후원] 들고 있던 파티 펠 중 1마리가 무작위로 삭제되었습니다."
                         )
                         if not sent then
                             writeLog("랜덤 파티 팰 삭제 안내 전송 실패: " .. playerName)

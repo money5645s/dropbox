@@ -1,4 +1,3 @@
-require("Pal.hook.PalHook")
 require("Pal.hook.BP_MonoNPCSpawner")
 require("Pal.PalUClass")
 local UEHelpers = require("UEHelpers")

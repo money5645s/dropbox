@@ -27,6 +27,7 @@ local function loadDonationModule(name)
 end
 
 -- Load the command runtime before registering the chat hook.
+loadDonationModule("donation_hooks")
 loadDonationModule("config")
 loadDonationModule("runtime")
 loadDonationModule("bundle_list")

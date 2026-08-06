@@ -1,9 +1,0 @@
----@meta
-
----@class UPalWazaBulletEmiiterOverlap_Unique_ThunderDragonMan_ThunderSwordAttack_C : UPalWazaBulletEmiiterOverlapBase
-local UPalWazaBulletEmiiterOverlap_Unique_ThunderDragonMan_ThunderSwordAttack_C = {}
-
----@param Spheres TArray<FPalWazaBulletEmiiterOverlapSphere>
-function UPalWazaBulletEmiiterOverlap_Unique_ThunderDragonMan_ThunderSwordAttack_C:GetBulletEmiiterOverlapSphere(Spheres) end
-
-

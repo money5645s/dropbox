@@ -42,6 +42,36 @@ local function isValidObject(object)
     return object ~= nil and object:IsValid()
 end
 
+local function findRandomOtherPlayer(sourceUid)
+    if sourceUid == nil or sourceUid.A == nil then
+        return nil
+    end
+
+    local candidates = {}
+    for _, candidateController in pairs(getServerPlayers()) do
+        if isValidObject(candidateController) then
+            local candidateState = candidateController:GetPalPlayerState()
+            local candidatePawn = candidateController.AcknowledgedPawn
+            local candidateUid = isValidObject(candidateState) and candidateState.PlayerUId or nil
+            if isValidObject(candidateState)
+                and isValidObject(candidatePawn)
+                and candidateUid ~= nil
+                and candidateUid.A ~= sourceUid.A then
+                table.insert(candidates, {
+                    controller = candidateController,
+                    pawn = candidatePawn,
+                    name = candidateState.PlayerNamePrivate:ToString(),
+                })
+            end
+        end
+    end
+
+    if #candidates == 0 then
+        return nil
+    end
+    return candidates[math.random(1, #candidates)]
+end
+
 return function(context)
     local _, playerController = findPlayerStateByUid(context.playerUid)
     if not isValidObject(playerController) or not isValidObject(playerController.AcknowledgedPawn) then
@@ -49,13 +79,26 @@ return function(context)
     end
 
     local pawn = playerController.AcknowledgedPawn
+    local targetPlayer = findRandomOtherPlayer(context.playerUid)
+    if targetPlayer ~= nil then
+        if pawn:K2_TeleportTo(targetPlayer.pawn:K2_GetActorLocation(), targetPlayer.pawn:K2_GetActorRotation()) == false then
+            return false, "다른 플레이어에게 순간이동하지 못했습니다."
+        end
+
+        local message = "무작위 플레이어 " .. targetPlayer.name .. "에게 이동했습니다."
+        context.sendSystemToPlayer(playerController:GetPlayerUId(), "[후원] " .. message)
+        context.log("랜덤 플레이어 텔레포트 완료: " .. tostring(context.playerName)
+            .. " / 대상=" .. targetPlayer.name)
+        return true, message
+    end
+
+    -- 자신 외에 이동할 접속 플레이어가 없으면 기존 랜덤 좌표 이동을 사용합니다.
     local destination = RANDOM_LOCATIONS[math.random(1, #RANDOM_LOCATIONS)]
     local targetLocation = {
         X = destination.x * SCALE_FACTOR,
         Y = destination.y * SCALE_FACTOR,
         Z = FALL_HEIGHT_Z,
     }
-
     if pawn:K2_TeleportTo(targetLocation, pawn:K2_GetActorRotation()) == false then
         return false, "랜덤 좌표로 순간이동하지 못했습니다."
     end

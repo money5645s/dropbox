@@ -59,7 +59,7 @@ return function(context)
             .. " / " .. tostring(scheduleErr))
     end
 
-    context.sendSystemToPlayer(context.playerUid, "[후원] 50,000원 강력한 피해 이벤트가 적용되었습니다.")
+    context.sendSystemToPlayer(context.playerUid, "[후원] 즉사 이벤트가 적용되었습니다.")
     context.log("플레이어 즉사 이벤트 완료: " .. tostring(context.playerName)
         .. " / 피해 " .. tostring(KILL_DAMAGE))
     return true, "플레이어 즉사 이벤트를 적용했습니다."
